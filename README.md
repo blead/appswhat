@@ -9,7 +9,7 @@
 - [`paho-mqtt`](https://github.com/eclipse/paho.mqtt.python)
 
 ## Load Balancer
-
+We can probably write this ourselves?
 
 ## Server
 candidates:
