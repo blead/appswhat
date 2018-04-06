@@ -1,3 +1,4 @@
+# AppsWhat
 
 
 ## Front End
@@ -11,5 +12,10 @@
 
 
 ## Server
-
-- _[`mqtt-stack`](https://github.com/mqttjs/mqtt-stack) looks interesting._
+candidates:
+- JS:
+  - [`mosca`](https://github.com/mcollina/mosca)
+  - [`mqtt-connect`](https://github.com/roccomuso/mqtt-connect)
+  - [`mqtt-stack`](https://github.com/mqttjs/mqtt-stack)
+- Python:
+  - [`hbmqtt`](https://github.com/beerfactory/hbmqtt)
