@@ -1,22 +1,13 @@
 # AppsWhat
 
-
-## Front End
-- [Socket.IO](https://socket.io/)
-
 ## Client
-- [`python-socketio`](https://github.com/miguelgrinberg/python-socketio/)
-- [`paho-mqtt`](https://github.com/eclipse/paho.mqtt.python)
+- [MQTT.js](https://github.com/mqttjs/MQTT.js)
 
 ## Load Balancer
-We can probably write this ourselves?
+- Manual implementation
 
 ## Server
-candidates:
-- JS:
-  - [`aedes`](https://github.com/mcollina/aedes) (redesign of `mosca`)
-  - [`mosca`](https://github.com/mcollina/mosca)
-  - [`mqtt-connect`](https://github.com/roccomuso/mqtt-connect)
-  - [`mqtt-stack`](https://github.com/mqttjs/mqtt-stack)
-- Python:
-  - [`hbmqtt`](https://github.com/beerfactory/hbmqtt)
+- [`aedes`](https://github.com/mcollina/aedes)
+
+## Persistence
+- [Redis](https://redis.io/)
