@@ -8,6 +8,8 @@
 
 ## Server
 - [`aedes`](https://github.com/mcollina/aedes)
+- [Server readme](server/README.md)
 
 ## Persistence
 - [Redis](https://redis.io/)
+- [Persistence readme](persistence/README.md)
