@@ -1,16 +1,43 @@
-const url = 'ws://localhost:8080'
+const url = 'http://localhost/'
+let client = null
 
-console.log(`connecting to ${url}`)
+function getServer(url, retryTimeout, callback) {
+  console.log(`requesting server path from ${url}`)
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function() {
+    if(request.readyState == XMLHttpRequest.DONE) {
+      if(request.status == 200) {
+        callback(request.responseText)
+      } else {
+        setTimeout(getServer, retryTimeout, url, retryTimeout, callback)
+      }
+    }
+  }
+  request.open('GET', url, true)
+  request.send()
+}
 
-const client = mqtt.connect(url)
+function subscribe(topic) {
+  client.subscribe(topic)
+}
 
-client.on('connect', function() {
-  client.subscribe('+')
-  client.publish('test', msgpack.encode({message: 'Hello World!'}))
-})
+function publish(topic, data) {
+  client.publish(topic, msgpack.encode(data))
+}
 
-client.on('message', function(topic, message) {
-  const data = msgpack.decode(message)
-  console.log(`topic: ${topic}`)
-  console.log(data)
+getServer(url, 1000, function(url) {
+  console.log(`connecting to ${url}`)
+
+  client = mqtt.connect(url)
+
+  client.on('connect', function() {
+    subscribe('+')
+    publish('test', {message: 'Hello World!'})
+  })
+
+  client.on('message', function(topic, message) {
+    const data = msgpack.decode(message)
+    console.log(`topic: ${topic}`)
+    console.log(data)
+  })
 })
