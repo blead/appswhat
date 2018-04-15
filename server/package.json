@@ -12,6 +12,8 @@
     "aedes": "^0.33.0",
     "aedes-persistence-redis": "^5.1.0",
     "mqemitter-redis": "^2.3.0",
+    "msgpack-lite": "^0.1.26",
+    "nanoid": "^1.0.2",
     "websocket-stream": "^5.1.2"
   }
 }
