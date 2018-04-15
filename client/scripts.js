@@ -5,10 +5,12 @@ console.log(`connecting to ${url}`)
 const client = mqtt.connect(url)
 
 client.on('connect', function() {
-  client.subscribe('test')
-  client.publish('test', 'Hello World!')
+  client.subscribe('+')
+  client.publish('test', msgpack.encode({message: 'Hello World!'}))
 })
 
 client.on('message', function(topic, message) {
-  console.log(`[${topic}] ${message.toString()}`)
+  const data = msgpack.decode(message)
+  console.log(`topic: ${topic}`)
+  console.log(data)
 })
