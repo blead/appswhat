@@ -1,4 +1,5 @@
 const app = require('express')()
+const cors = require('cors')
 const mqtt = require('mqtt')
 const FibonacciHeap = require('@tyriar/fibonacci-heap')
 
@@ -40,6 +41,8 @@ servers.forEach(function(server) {
     }
   })
 })
+
+app.use(cors())
 
 app.get('/', function(req, res) {
   const server = serverPool.findMinimum()
