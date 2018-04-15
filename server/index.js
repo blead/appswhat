@@ -3,6 +3,7 @@ const aedes = require('aedes')({
   persistence: require('aedes-persistence-redis')(),
   authorizePublish: authorizePublish,
 })
+const stats = require('aedes-stats')
 
 const packetHandler = require('./packet-handler')
 const config = require('./config')
@@ -25,3 +26,5 @@ function authorizePublish(client, packet, callback) {
     callback(error)
   }
 }
+
+stats(aedes)
