@@ -1,20 +1,46 @@
-const url = 'http://localhost/'
+const loadBalancerPath = 'http://localhost/'
+let clientId = null
 let client = null
 
-function getServer(url, retryTimeout, callback) {
-  console.log(`requesting server path from ${url}`)
-  const request = new XMLHttpRequest();
-  request.onreadystatechange = function() {
-    if(request.readyState == XMLHttpRequest.DONE) {
-      if(request.status == 200) {
-        callback(request.responseText)
-      } else {
-        setTimeout(getServer, retryTimeout, url, retryTimeout, callback)
-      }
-    }
-  }
-  request.open('GET', url, true)
-  request.send()
+function getServerPath(url) {
+  return fetch(url).then(function(response) {
+    return response.text()
+  }).catch(function(error) {
+    return getServer(url)
+  })
+}
+
+function getServerPathSynchronous(url) {
+  let request = null
+  do {
+    request = new XMLHttpRequest()
+    request.open('GET', url, false)
+    request.send()
+  } while(request.status != 200)
+  return request.responseText
+}
+
+function init(url, clientId) {
+  const options = clientId ? { clientId, clean: false } : {}
+
+  console.log(`connecting to ${url}`)
+  client = mqtt.connect(url, {
+    ...options,
+    transformWsUrl: function() {
+      return getServerPathSynchronous(loadBalancerPath)
+    },
+  })
+
+  client.on('connect', function() {
+    subscribe('+')
+    publish('test', {message: 'Hello World!'})
+  })
+
+  client.on('message', function(topic, message, packet) {
+    const data = msgpack.decode(message)
+    console.log(`topic: ${topic}`.concat(packet.retain ? ' (retained)' : ''))
+    console.log(data)
+  })
 }
 
 function subscribe(topic) {
@@ -22,22 +48,9 @@ function subscribe(topic) {
 }
 
 function publish(topic, data) {
-  client.publish(topic, msgpack.encode(data))
+  client.publish(topic, msgpack.encode(data), {qos: 2, retain: true})
 }
 
-getServer(url, 1000, function(url) {
-  console.log(`connecting to ${url}`)
-
-  client = mqtt.connect(url)
-
-  client.on('connect', function() {
-    subscribe('+')
-    publish('test', {message: 'Hello World!'})
-  })
-
-  client.on('message', function(topic, message) {
-    const data = msgpack.decode(message)
-    console.log(`topic: ${topic}`)
-    console.log(data)
-  })
+getServerPath(loadBalancerPath).then(function(url) {
+  init(url, clientId)
 })
