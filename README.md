@@ -2,21 +2,15 @@
 
 ## Client
 - Web-based chat client.
-- [MQTT.js](https://github.com/mqttjs/MQTT.js)
 
-## Load Balancer
+## [Load Balancer](load-balancer)
 - Monitors the status of each server and responds to client requests with the least populated server.
-- [Load Balancer readme](load-balancer/README.md)
 
-## Logger
+## [Logger](logger)
 - Subscribes to all topics and maintains a capped collection of published messages.
-- [Logger readme](logger/README.md)
 
-## Server
+## [Server](server)
 - MQTT broker.
-- [`aedes`](https://github.com/mcollina/aedes)
-- [Server readme](server/README.md)
 
-## Shared
+## [Shared](shared)
 - Shared dependencies used by above implementations.
-- [Shared readme](shared/README.md)
