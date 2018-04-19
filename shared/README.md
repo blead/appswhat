@@ -21,7 +21,7 @@ Required: [Node.js](https://nodejs.org)
 ```js
 const { AppsWhatClient } = require('../shared')
 
-const client = new AppsWhatClient('ws:test.mosquitto.org:8080', 'client-id')
+const client = new AppsWhatClient('ws://test.mosquitto.org:8080', 'client-id')
 
 client.on('connect', function() {
   client.subscribe('presence')
