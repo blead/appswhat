@@ -1,7 +1,7 @@
 const app = require('express')()
 const cors = require('cors')
 
-const AppsWhatClient = require('./appswhat-client')
+const { AppsWhatClient } = require('../shared')
 const config = require('./config')
 
 const client = new AppsWhatClient(config.mqtt.path, config.mqtt.clientId)
