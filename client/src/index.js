@@ -1,4 +1,4 @@
-import AppsWhatClient from '@shared/appswhat-client' 
+import { AppsWhatClient } from '@shared/' 
 
 const client = new AppsWhatClient('http://localhost:80', 'peaw')
 console.log(client)
