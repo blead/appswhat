@@ -1,0 +1,14 @@
+{
+  "name": "appswhat-shared",
+  "version": "0.0.1",
+  "description": "Shared dependencies for AppsWhat",
+  "main": "index.js",
+  "author": "Donation Box",
+  "private": true,
+  "dependencies": {
+    "mqtt": "^2.17.0",
+    "msgpack-lite": "^0.1.26",
+    "node-fetch": "^2.1.2",
+    "xmlhttprequest": "^1.8.0"
+  }
+}
