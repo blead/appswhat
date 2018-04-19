@@ -36,12 +36,12 @@ class AppsWhatClient extends EventEmitter {
     })
   }
 
-  subscribe(topic) {
-    this.client.subscribe(topic)
-  }
-
   publish(topic, data) {
     this.client.publish(topic, encode(data), { qos: 2, retain: true })
+  }
+
+  subscribe(topic) {
+    this.client.subscribe(topic)
   }
 
   _getServerPath(url) {
