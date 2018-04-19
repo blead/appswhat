@@ -1,3 +1,3 @@
 module.exports = {
-  websocketPort: 8080,
+  websocketPort: process.env.PORT || 8080,
 }
