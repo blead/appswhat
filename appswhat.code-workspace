@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "client"
+		},
+		{
+			"path": "load-balancer"
+		},
+		{
+			"path": "server"
+		},
+		{
+			"path": "logger"
+		},
+		{
+			"path": "shared"
+		}
+	],
+	"settings": {}
+}
