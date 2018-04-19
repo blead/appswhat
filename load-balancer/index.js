@@ -1,7 +1,7 @@
 const app = require('express')()
 const cors = require('cors')
 const mqtt = require('mqtt')
-const FibonacciHeap = require('@tyriar/fibonacci-heap')
+const { FibonacciHeap } = require('js-data-structures')
 
 const config = require('./config')
 
