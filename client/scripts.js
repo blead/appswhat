@@ -1,4 +1,4 @@
-const loadBalancerPath = 'http://localhost/'
+const loadBalancerPath = 'http://localhost:8888/'
 let clientId = null
 let client = null
 
