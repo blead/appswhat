@@ -1,5 +1,6 @@
 const EventEmitter = require('events')
 const mqtt = require('mqtt')
+const request = require('then-request')
 const syncRequest = require('sync-request')
 const { encode, decode } = require('msgpack-lite')
 
@@ -9,27 +10,29 @@ class AppsWhatClient extends EventEmitter {
 
     const options = clientId ? { clientId, clean: false } : {}
 
-    this.client = mqtt.connect({
-      ...options,
-      transformWsUrl: () => this._getServerPathSynchronous(path),
-    })
-
-    this.client.on('message', (topic, message, packet) => {
-      this.emit('message', {
-        ...packet,
-        payload: packet.payload ? decode(packet.payload) : packet.payload
+    this._getServerUrl(path).then(url => {
+      this.client = mqtt.connect(url, {
+        ...options,
+        transformWsUrl: () => this._getServerUrlSynchronous(path),
       })
-    })
 
-    ;['packetsend', 'packetreceive'].forEach(event => this.client.on(event, packet => {
-      this.emit(event, {
-        ...packet,
-        payload: packet.payload ? decode(packet.payload) : packet.payload
+      this.client.on('message', (topic, message, packet) => {
+        this.emit('message', {
+          ...packet,
+          payload: packet.payload ? decode(packet.payload) : packet.payload
+        })
       })
-    }))
 
-    ;['connect', 'reconnect', 'close', 'offline', 'error', 'end'].forEach(event => {
-      this.client.on(event, (...args) => this.emit(event, ...args))
+      ;['packetsend', 'packetreceive'].forEach(event => this.client.on(event, packet => {
+        this.emit(event, {
+          ...packet,
+          payload: packet.payload ? decode(packet.payload) : packet.payload
+        })
+      }))
+
+      ;['connect', 'reconnect', 'close', 'offline', 'error', 'end'].forEach(event => {
+        this.client.on(event, (...args) => this.emit(event, ...args))
+      })
     })
   }
 
@@ -41,8 +44,12 @@ class AppsWhatClient extends EventEmitter {
     this.client.subscribe(topic)
   }
 
-  _getServerPathSynchronous(url) {
-    return syncRequest('GET', url).getBody()
+  _getServerUrl(path) {
+    return request('GET', path, { retry: true }).getBody('urft8')
+  }
+
+  _getServerUrlSynchronous(path) {
+    return syncRequest('GET', path, { retry: true }).getBody('utf8')
   }
 }
 
