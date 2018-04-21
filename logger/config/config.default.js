@@ -1,7 +1,7 @@
 module.exports = {
   port: process.env.PORT || 80,
   mqtt: {
-    path: process.env.MQTT_PATH || 'http://localhost:8888/',
+    path: process.env.MQTT_PATH || 'http://localhost:80',
     clientId: process.env.MQTT_ID || null,
   },
   database: {
