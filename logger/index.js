@@ -18,19 +18,21 @@ client.on('message', function(packet) {
 app.use(cors())
 
 app.get('/message', function(req, res) {
-  if(!req.query.start || !req.query.end) {
+  try {
+    const { topic, start, end } = req.query
+    res.json([
+      {
+        id: req.query.start,
+        message: 'start :D',
+      },
+      {
+        id: req.query.end,
+        message: 'end :D',
+      },
+    ])
+  } catch(error) {
     res.sendStatus(400)
   }
-  res.json([
-    {
-      id: req.query.start,
-      message: 'start :D',
-    },
-    {
-      id: req.query.end,
-      message: 'end :D',
-    },
-  ])
 })
 
 app.listen(config.port, function() {
