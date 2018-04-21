@@ -11,23 +11,20 @@ class AppsWhatClient extends EventEmitter {
     const options = clientId ? { clientId, clean: false } : {}
 
     this._getServerUrl(path).then(url => {
-      this.client = mqtt.connect(url, {
-        ...options,
+      this.client = mqtt.connect(url, Object.assign(options, {
         transformWsUrl: () => this._getServerUrlSynchronous(path),
-      })
+      }))
 
       this.client.on('message', (topic, message, packet) => {
-        this.emit('message', {
-          ...packet,
+        this.emit('message', Object.assign(packet, {
           payload: packet.payload ? decode(packet.payload) : packet.payload
-        })
+        }))
       })
 
       ;['packetsend', 'packetreceive'].forEach(event => this.client.on(event, packet => {
-        this.emit(event, {
-          ...packet,
+        this.emit(event, Object.assign(packet, {
           payload: packet.payload ? decode(packet.payload) : packet.payload
-        })
+        }))
       }))
 
       ;['connect', 'reconnect', 'close', 'offline', 'error', 'end'].forEach(event => {
