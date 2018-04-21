@@ -13,6 +13,14 @@ module.exports =  {
     path: path.resolve(__dirname, 'build'),
     filename: '[name].bundle.js'
   },
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      },
+    ]
+  },
   node: {
     fs: 'empty',
     child_process: 'empty'
@@ -21,7 +29,7 @@ module.exports =  {
     alias: {
       '@shared': path.resolve(__dirname, '../shared')
     },
-    extensions: [ '.js' ]
+    extensions: [ '.js', '.vue' ]
   },
   devServer: {
     port: 9000,
