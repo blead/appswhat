@@ -6,7 +6,7 @@
     <div style="height: 170px;" class="pt-4 border-top">
       <b-container fluid>
           <b-form action="#" @submit="onChatSubmit">
-            <b-form-input size="sm" type="text" name="chatInput" id="">
+            <b-form-input size="sm" type="text" name="chatInput" id="" ref="chatInput">
             </b-form-input>
           </b-form>
       </b-container>
@@ -26,6 +26,17 @@ export default {
       event.preventDefault()
       console.log(event.target.chatInput.value)
     }
+  },
+  created() {
+    this.oldDocumentOnKeypressHandler = document.onkeypress
+    document.onkeypress = (event) => {
+      if(event.key === "Enter") {
+        this.$refs.chatInput.focus()
+      }
+    }
+  },
+  beforeDestroy() {
+    document.onkeypress = this.oldDocumentOnKeypressHandler
   }
 }
 </script>

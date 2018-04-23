@@ -14,6 +14,13 @@ export default {
   components: {
     ChatInfo,
     ChatView
+  },
+  created() {
+    document.onkeypress = (event) => {
+      if(event.key === "Enter") {
+        console.log('select chat')
+      }
+    }
   }
 }
 </script>
