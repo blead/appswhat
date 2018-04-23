@@ -7,6 +7,7 @@
     <chat-list 
       :chats="this.chats"
       @selectTopic="this.selectTopic"
+      @newChat="this.onNewChat"
     />
   </b-container>
 </template>
@@ -28,6 +29,10 @@ export default {
     },
     onLogin(username) {
       this.$emit('login', username)
+    },
+    onNewChat(topic) {
+      console.log(topic)
+      this.$emit('newChat', topic)
     }
   }
 }

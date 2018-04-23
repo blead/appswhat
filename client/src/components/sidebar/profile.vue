@@ -2,7 +2,7 @@
   <b-container fluid>
     <div v-if="this.user.name">
       <small>logged in as</small>
-      <h5> {{ this.user.name }} </h5>
+      <h5 class="text-truncate"> {{ this.user.name }} </h5>
       <a href="#"><small>log out</small></a>
     </div>
     <div v-else>

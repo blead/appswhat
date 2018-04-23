@@ -15,7 +15,12 @@
           </b-badge>
       </b-list-group-item>
     </b-list-group>
-    <b-button variant="link" class="mt-1 ml-1 p-0">new chat</b-button>
+    <b-button v-b-modal.newchat variant="link" class="mt-1 ml-1 p-0">new chat</b-button>
+    <b-modal id="newchat" title="New Chat" ref="newChatModal">
+      <b-form @submit="this.onNewChat">
+        <b-form-input placeholder="enter topic" name="topic"></b-form-input>
+      </b-form>
+    </b-modal>
   </b-container>
 </template>
 
@@ -26,6 +31,13 @@ export default {
   methods: {
     onSelectTopic(topic) {
       this.$emit('selectTopic', topic)
+    },
+    onNewChat(event) {
+      event.preventDefault()
+      const topic = event.target.topic.value
+      console.log(topic)
+      this.$emit('newChat', topic)
+      this.$refs.newChatModal.hide()
     }
   }
 }
