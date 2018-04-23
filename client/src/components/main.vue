@@ -7,6 +7,7 @@
             :user="this.user"
             :chats="this.chats"
             @selectTopic="this.selectTopic"
+            @login="this.onUserLogin"
             />
         </b-col>
         <b-col class="h-100 px-0">
@@ -38,6 +39,9 @@ export default {
     },
     selectTopic(topic) {
       this.currentChat = topic
+    },
+    onUserLogin(username) {
+      this.login(username)
     }
   },
   data() {
@@ -73,21 +77,21 @@ export default {
     }
   },
   created() {
-    this.login('peawyoyoyin')
-    this.$chat.client.on('message', (packet) => {
-      console.log(packet)
-      const { payload, topic } = packet
-      if(this.chats[topic].messages.find(msg => (msg.id === payload.id)) === undefined) {
-        this.chats[topic].messages.push({
-          ...payload,
-          own: payload.senderId === this.user.name
-        })
-        console.log('new message')
-      }
-    })
-    this.$chat.client.on('connect', () => {
-    })
-    console.log(`logged in as ${this.user.name}`)
+  //   this.login('peawyoyoyin')
+  //   this.$chat.client.on('message', (packet) => {
+  //     console.log(packet)
+  //     const { payload, topic } = packet
+  //     if(this.chats[topic].messages.find(msg => (msg.id === payload.id)) === undefined) {
+  //       this.chats[topic].messages.push({
+  //         ...payload,
+  //         own: payload.senderId === this.user.name
+  //       })
+  //       console.log('new message')
+  //     }
+  //   })
+  //   this.$chat.client.on('connect', () => {
+  //   })
+  //   console.log(`logged in as ${this.user.name}`)
   }
 }
 </script>

@@ -37,15 +37,8 @@ export default {
     }
   },
   created() {
-    this.oldDocumentOnKeypressHandler = document.onkeypress
-    document.onkeypress = (event) => {
-      if(event.key === "Enter") {
-        this.$refs.chatInput.focus()
-      }
-    }
   },
   beforeDestroy() {
-    document.onkeypress = this.oldDocumentOnKeypressHandler
   }
 }
 </script>

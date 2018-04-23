@@ -1,6 +1,9 @@
 <template>
   <b-container fluid class="px-0 mt-2">
-    <profile :user="this.user"/>
+    <profile 
+    :user="this.user"
+    @login="this.onLogin"
+    />
     <chat-list 
       :chats="this.chats"
       @selectTopic="this.selectTopic"
@@ -22,6 +25,9 @@ export default {
   methods: {
     selectTopic(topic) {
       this.$emit('selectTopic', topic)
+    },
+    onLogin(username) {
+      this.$emit('login', username)
     }
   }
 }
