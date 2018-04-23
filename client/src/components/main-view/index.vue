@@ -1,5 +1,9 @@
 <template>
-  <router-view></router-view>
+  <chat
+  :user="this.user"
+  :chatTopic="this.currentChat"
+  :chatData="this.chats[this.currentChat]"
+  />
 </template>
 
 <script>
@@ -8,6 +12,7 @@ export default {
   name: 'MainView',
   components: {
     Chat,
-  }
+  },
+  props: ['user', 'chats', 'currentChat']
 }
 </script>

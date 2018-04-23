@@ -1,8 +1,13 @@
 <template>
   <b-container fluid class="p-0 h-100">
-    <chat-info></chat-info>
+    <chat-info
+    :chatTopic="this.chatTopic"
+    />
     <hr class="mb-0"/>
-    <chat-view></chat-view>
+    <chat-view
+    :chatData="this.chatData"
+    :chatTopic="this.chatTopic"
+    />
   </b-container>
 </template>
 
@@ -14,6 +19,7 @@ export default {
   components: {
     ChatInfo,
     ChatView
-  }
+  },
+  props: ['chatTopic', 'chatData']
 }
 </script>

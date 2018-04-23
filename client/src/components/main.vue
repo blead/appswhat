@@ -4,10 +4,17 @@
       <b-row class="h-100">
         <b-col cols="2" class="h-100 px-0 border-right">
           <sidebar
-            :user="this.user"/>
+            :user="this.user"
+            :chats="this.chats"
+            @selectTopic="this.selectTopic"
+            />
         </b-col>
         <b-col class="h-100 px-0">
-          <main-view/>
+          <main-view
+            :user="this.user"
+            :chats="this.chats"
+            :currentChat="this.currentChat"
+          />
         </b-col>
       </b-row>
     </b-container>
@@ -24,17 +31,50 @@ export default {
     'sidebar': Sidebar,
     'main-view': MainView
   },
+  methods: {
+    login(username) {
+      this.$chat.login(username)
+      this.user.name = username
+    },
+    selectTopic(topic) {
+      this.currentChat = topic
+    }
+  },
   data() {
     return {
       user: {
-        name: 'peawyoyoyin'
+        name: ''
       },
-      chats: {}
+      chats: {
+        'thinc': {
+          newTexts: 4,
+          messages: [
+            {
+              sender: 'someguy101',
+              message: 'yo dude',
+              own: false,
+              timestamp: 1
+            }
+          ]
+        },
+        'cp42': {
+          newTexts: 0,
+          messages: [
+            {
+              sender: 'peawyoyoyin',
+              message: 'hello world',
+              own: true,
+              timestamp: 1
+            }
+          ]
+        }
+      },
+      currentChat: 'thinc',
     }
   },
   created() {
-    this.$chat.login('peawyoyoyin')
-    console.log('logged in')
+    this.login('peawyoyoyin')
+    console.log(`logged in as ${this.user.name}`)
   }
 }
 </script>
