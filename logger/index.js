@@ -9,9 +9,7 @@ const client = new AppsWhatClient(config.mqtt.path, config.mqtt.clientId)
 const database = new Database(config.database)
 
 client.on('connect', function() {
-  console.log('connected!')
   client.subscribe('#')
-  client.publish('test', 'Harro Warudo!')
 })
 
 client.on('message', function(packet) {

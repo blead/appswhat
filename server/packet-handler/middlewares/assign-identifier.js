@@ -1,12 +1,10 @@
 const nanoid = require('nanoid')
 
-module.exports = function(packet, next) {
-  const payload = (typeof packet.payload === 'object') ? packet.payload : {message: packet.payload}
-
+module.exports = function(client, packet, next) {
   next({
     ...packet,
     payload: {
-      ...payload,
+      ...packet.payload,
       id: nanoid(),
     },
   })
