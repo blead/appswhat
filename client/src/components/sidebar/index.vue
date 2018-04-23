@@ -21,8 +21,8 @@ export default {
   name: 'Sidebar',
   props: ['user', 'chats'],
   components: {
-    'profile': Profile,
-    'chat-list': ChatList,
+    Profile,
+    ChatList,
   },
   methods: {
     selectTopic(topic) {
