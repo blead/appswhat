@@ -61,8 +61,6 @@ export default {
           })
         }
       })
-      this.$chat.client.on('connect', () => {
-        })
     },
     onNewChat(topic) {
       if(this.chats[topic] !== undefined) {
