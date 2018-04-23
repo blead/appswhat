@@ -3,9 +3,9 @@
   class="mx-5" 
   :class="{'text-right': message.own}"
   >
-  <small class="mb-0">{{ message.sender }}</small>
+  <small class="mb-0">{{ message.senderId }}</small>
   <br/>
-  <small v-if="message.own" class="mx-2">{{ message.timestamp }}</small>
+  <small v-if="message.own" class="mx-2">{{ timestampText }}</small>
   <b-alert show 
     :variant="message.own ? 'dark' : 'light'" 
     class="mb-2 mt-0 p-0 border rounded d-inline-block"
@@ -17,14 +17,19 @@
       </b-media-body>
     </b-media>
   </b-alert>
-  <small v-if="!message.own" class="mx-2">{{ message.timestamp }}</small>
+  <small v-if="!message.own" class="mx-2">{{ timestampText }}</small>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Message',
-  props: ['message']
+  props: ['message'],
+  computed: {
+    timestampText: function() {
+      return new Date(this.message.timestamp).toLocaleTimeString()
+    }
+  }
 }
 </script>
 

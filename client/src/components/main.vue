@@ -50,7 +50,7 @@ export default {
           newTexts: 4,
           messages: [
             {
-              sender: 'someguy101',
+              senderId: 'someguy101',
               message: 'yo dude',
               own: false,
               timestamp: 1
@@ -61,7 +61,7 @@ export default {
           newTexts: 0,
           messages: [
             {
-              sender: 'peawyoyoyin',
+              senderId: 'peawyoyoyin',
               message: 'hello world',
               own: true,
               timestamp: 1
@@ -74,6 +74,19 @@ export default {
   },
   created() {
     this.login('peawyoyoyin')
+    this.$chat.client.on('message', (packet) => {
+      console.log(packet)
+      const { payload, topic } = packet
+      if(this.chats[topic].messages.find(msg => (msg.id === payload.id)) === undefined) {
+        this.chats[topic].messages.push({
+          ...payload,
+          own: payload.senderId === this.user.name
+        })
+        console.log('new message')
+      }
+    })
+    this.$chat.client.on('connect', () => {
+    })
     console.log(`logged in as ${this.user.name}`)
   }
 }

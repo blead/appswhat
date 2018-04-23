@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     selectTopic(topic) {
-      console.log(this.$emit('selectTopic', topic))
+      this.$emit('selectTopic', topic)
     }
   }
 }
