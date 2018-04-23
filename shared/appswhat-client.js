@@ -42,7 +42,7 @@ class AppsWhatClient extends EventEmitter {
   }
 
   _getServerUrl(path) {
-    return request('GET', path, { retry: true }).getBody('urft8')
+    return request('GET', path, { retry: true }).getBody('utf8')
   }
 
   _getServerUrlSynchronous(path) {
