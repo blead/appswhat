@@ -4,7 +4,8 @@
     :user="this.user"
     @login="this.onLogin"
     />
-    <chat-list 
+    <chat-list
+      v-if="this.user.name"
       :chats="this.chats"
       @selectTopic="this.selectTopic"
       @newChat="this.onNewChat"
