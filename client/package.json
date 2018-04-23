@@ -10,7 +10,8 @@
     "msgpack-lite": "^0.1.26",
     "node-fetch": "^2.1.2",
     "sync-request": "^6.0.0",
-    "vue": "^2.5.16"
+    "vue": "^2.5.16",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^4.5.1",
