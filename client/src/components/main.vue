@@ -30,8 +30,8 @@ import MainView from './main-view'
 export default {
   name: 'Main',
   components: {
-    'sidebar': Sidebar,
-    'main-view': MainView
+    Sidebar,
+    MainView
   },
   methods: {
     login(username) {
