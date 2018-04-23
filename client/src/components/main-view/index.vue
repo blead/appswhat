@@ -1,5 +1,5 @@
 <template>
-  <chat></chat>
+  <router-view></router-view>
 </template>
 
 <script>

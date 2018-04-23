@@ -1,6 +1,6 @@
 <template>
   <b-container class="pt-3">
-    <h1>CP42</h1>
+    <h1>{{ this.$route.params.topic }}</h1>
   </b-container>
 </template>
 

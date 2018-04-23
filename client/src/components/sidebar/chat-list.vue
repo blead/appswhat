@@ -2,17 +2,22 @@
   <b-container fluid>
     <small>chats</small>
     <b-list-group flush>
-      <b-list-group-item 
-        href="#"
+      <router-link 
+        tag="div"
         v-for="chat in chats" 
+        :to="chat.name"
         :key="chat.name"
-        class="d-flex justify-content-between align-items-center p-1"
-        >
-          {{ chat.name }}
-          <b-badge v-if="chat.newTexts > 0" variant="secondary" class="">
-            {{ chat.newTexts }}
-          </b-badge>
-      </b-list-group-item>
+      >
+        <b-list-group-item 
+          href="#"
+          class="d-flex justify-content-between align-items-center p-1"
+          >
+            {{ chat.name }}
+            <b-badge v-if="chat.newTexts > 0" variant="secondary" class="">
+              {{ chat.newTexts }}
+            </b-badge>
+        </b-list-group-item>
+      </router-link>
     </b-list-group>
     <b-button variant="link" class="mt-1 ml-1 p-0">new chat</b-button>
   </b-container>

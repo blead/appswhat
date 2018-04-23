@@ -12,7 +12,9 @@
     v-b-tooltip.click="message.message"
     >
     <b-media class="py-1 px-3">
+      <b-media-body class="chat-message">
       {{ message.message }}
+      </b-media-body>
     </b-media>
   </b-alert>
   <small v-if="!message.own" class="mx-2">{{ message.timestamp }}</small>
@@ -25,3 +27,9 @@ export default {
   props: ['message']
 }
 </script>
+
+<style>
+  .chat-message {
+    cursor: default;
+  }
+</style>
