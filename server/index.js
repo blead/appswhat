@@ -8,6 +8,10 @@ const stats = require('aedes-stats')
 const packetHandler = require('./packet-handler')
 const config = require('./config')
 
+aedes.on('client', function(client) {
+  console.log(`[${new Date().toLocaleTimeString()}] new client ID: ${client.id}`)
+})
+
 const server = require('websocket-stream').createServer({port: config.websocketPort}, aedes.handle)
 
 server.on('listening', function() {
