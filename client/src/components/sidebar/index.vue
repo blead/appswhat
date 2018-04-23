@@ -1,17 +1,19 @@
 <template>
   <b-container fluid class="px-0 mt-2">
     <profile></profile>
-    <p> Sidebar! </p>
+    <chat-list></chat-list>
   </b-container>
 </template>
 
 <script>
 import Profile from './profile'
+import ChatList from './chat-list'
 
 export default {
   name: 'Sidebar',
   components: {
-    'profile': Profile
+    'profile': Profile,
+    'chat-list': ChatList,
   }
 }
 </script>
