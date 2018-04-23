@@ -1,10 +1,12 @@
 <template>
   <b-container fluid class="p-0 m-0 d-flex flex-column h-100">
-    <div style="flex: 1;">chat view</div>
-    <div style="min-height: 170px;" class="pt-4 border-top">
+    <div style="flex: 1; max-height: calc(100vh - 170px);">
+      <conversation/>
+    </div>
+    <div style="height: 170px;" class="pt-4 border-top">
       <b-container fluid>
-          <b-form action="#">
-            <b-form-input size="sm" type="text" name="" id="">
+          <b-form action="#" @submit="onChatSubmit">
+            <b-form-input size="sm" type="text" name="chatInput" id="">
             </b-form-input>
           </b-form>
       </b-container>
@@ -13,7 +15,17 @@
 </template>
 
 <script>
+import Conversation from './conversation'
 export default {
   name: 'ChatView',
+  components: {
+    Conversation,
+  },
+  methods: {
+    onChatSubmit(event) {
+      event.preventDefault()
+      console.log(event.target.chatInput.value)
+    }
+  }
 }
 </script>

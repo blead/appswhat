@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="p-0 h-100">
     <chat-info></chat-info>
-    <hr/>
+    <hr class="mb-0"/>
     <chat-view></chat-view>
   </b-container>
 </template>
