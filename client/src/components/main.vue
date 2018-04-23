@@ -46,15 +46,12 @@ export default {
       this.currentChat=""
       this.login(username)
       this.$chat.client.on('message', (packet) => {
-        console.log(packet)
         const { payload, topic } = packet
         if(this.chats[topic] === undefined) {
-          console.log('new topic')
           this.$set(this.chats, topic, {
             newTexts: 0,
             messages: []
           })
-          console.log(this.chats)
           this.$chat.client.subscribe(topic)
         }
         if(this.chats[topic].messages.find(msg => (msg.id === payload.id)) === undefined) {
@@ -62,28 +59,26 @@ export default {
             ...payload,
             own: payload.senderId === this.user.name
           })
-          console.log('new message')
         }
       })
       this.$chat.client.on('connect', () => {
-      })
+        })
     },
     onNewChat(topic) {
       if(this.chats[topic] !== undefined) {
         return
       }
-
       this.$set(this.chats, topic, { newTexts: 0, messages: [] })
       this.$chat.client.subscribe(topic)
-    }
+    },
   },
   data() {
     return {
       user: {
-        name: ''
+        name: null
       },
       chats: {},
-      currentChat: 'thinc',
+      currentChat: null,
     }
   },
   created() {}
