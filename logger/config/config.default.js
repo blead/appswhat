@@ -7,5 +7,7 @@ module.exports = {
   database: {
     url: process.env.DB_URL || 'mongodb://localhost:27017',
     name: process.env.DB_NAME || 'appswhat',
+    size: 512 * 1024 * 1024, // 512 MB
+    max: 1000000, // documents
   },
 }

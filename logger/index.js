@@ -2,17 +2,22 @@ const app = require('express')()
 const cors = require('cors')
 
 const { AppsWhatClient } = require('../shared')
+const Database = require('./database')
 const config = require('./config')
 
 const client = new AppsWhatClient(config.mqtt.path, config.mqtt.clientId)
+const database = new Database(config.database)
 
 client.on('connect', function() {
+  console.log('connected!')
   client.subscribe('#')
+  client.publish('test', 'Harro Warudo!')
 })
 
 client.on('message', function(packet) {
-  console.log(`topic: ${packet.topic}`.concat(packet.retain ? ' (retained)' : ''))
-  console.log(packet.payload)
+  if(!packet.retain) {
+    database.insert(packet.topic, packet)
+  }
 })
 
 app.use(cors())
@@ -20,16 +25,11 @@ app.use(cors())
 app.get('/message', function(req, res) {
   try {
     const { topic, start, end } = req.query
-    res.json([
-      {
-        id: req.query.start,
-        message: 'start :D',
-      },
-      {
-        id: req.query.end,
-        message: 'end :D',
-      },
-    ])
+    database.query(topic, start, end).then(function(packets) {
+      res.json(packets)
+    }).catch(function(error) {
+      throw error
+    })
   } catch(error) {
     res.sendStatus(400)
   }

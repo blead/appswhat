@@ -1,11 +1,13 @@
 const { MongoClient } = require('mongodb')
 
-const config = require('./config')
-
 class Database {
-  constructor() {
-    MongoClient.connect(config.db.url).then(client => {
-      this.db = client.db(config.db.name)
+  constructor({ url, name, size = 512 * 1024 * 1024, max = 1000000 }) {
+    this.collectionOptions = {
+      size,
+      max,
+    }
+    MongoClient.connect(url).then(client => {
+      this.db = client.db(name)
     })
   }
 
@@ -14,16 +16,18 @@ class Database {
   }
 
   query(collectionName, start, end) {
-    this._getCollection(collectionName).then(collection => Promise.all([
+    return this._getCollection(collectionName).then(collection => Promise.all([
       collection,
       collection.findOne({
-        id: start
+        'payload.id': start
       }),
       collection.findOne({
-        id: end
+        'payload.id': end
       }),
     ])).then(([collection, startDocument, endDocument]) => collection.find({
       _id: { $gt: startDocument._id, $lt: endDocument._id }
+    }, {
+      projection: { _id: 0 }
     })).then(cursor => cursor.toArray())
   }
 
@@ -33,7 +37,17 @@ class Database {
       if(capped) {
         return collection
       }
-      return this.db.command({ convertToCapped: collectionName }).then(() => collection)
-    }).catch(error => this.db.createCollection(collectionName, { capped: true }))
+      return this.db.command({
+        convertToCapped: collectionName,
+        size: this.collectionOptions.size,
+        max: this.collectionOptions.max,
+      }).then(() => collection)
+    }).catch(error => this.db.createCollection(collectionName, {
+      capped: true,
+      size: this.collectionOptions.size,
+      max: this.collectionOptions.max,
+    }))
   }
 }
+
+module.exports = Database
