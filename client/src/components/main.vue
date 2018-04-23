@@ -1,11 +1,11 @@
 <template>
-  <div id="app">
-    <b-container>
-      <b-row>
-        <b-col>
-          <p> Hello </p>
+  <div id="app" style="height: 95vh; overflow: hidden;">
+    <b-container fluid class="h-100">
+      <b-row class="h-100">
+        <b-col cols="2" class="h-100 px-0">
+          <sidebar/>
         </b-col>
-        <b-col>
+        <b-col class="h-100">
           <p> Bootstrap </p>
         </b-col>
       </b-row>
@@ -14,16 +14,12 @@
 </template>
 
 <script>
-import bContainer from 'bootstrap-vue/es/components/layout/container'
-import bRow from 'bootstrap-vue/es/components/layout/row'
-import bCol from 'bootstrap-vue/es/components/layout/col'
+import Sidebar from './sidebar'
 
 export default {
   name: 'Main',
   components: {
-    'b-container': bContainer,
-    'b-row': bRow,
-    'b-col': bCol
+    'sidebar': Sidebar
   }
 }
 </script>
