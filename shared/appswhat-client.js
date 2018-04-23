@@ -16,13 +16,13 @@ class AppsWhatClient extends EventEmitter {
       }))
 
       this.client.on('message', (topic, message, packet) => {
-        this.emit('message', Object.assign(packet, {
+        this.emit('message', Object.assign({}, packet, {
           payload: packet.payload ? decode(packet.payload) : packet.payload
         }))
       })
 
       ;['packetsend', 'packetreceive'].forEach(event => this.client.on(event, packet => {
-        this.emit(event, Object.assign(packet, {
+        this.emit(event, Object.assign({}, packet, {
           payload: packet.payload ? decode(packet.payload) : packet.payload
         }))
       }))
