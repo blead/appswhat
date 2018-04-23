@@ -9,6 +9,7 @@
   <b-alert show 
     :variant="message.own ? 'dark' : 'light'" 
     class="mb-2 mt-0 p-0 border rounded d-inline-block"
+    v-b-tooltip.click="message.message"
     >
     <b-media class="py-1 px-3">
       {{ message.message }}

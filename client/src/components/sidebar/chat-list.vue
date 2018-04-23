@@ -24,9 +24,9 @@ export default {
   data() {
     return {
       chats: [
-        { name: 'CP42' },
-        { name: 'Thinc.', newTexts: 4 },
-        { name: 'TU75' },
+        { name: 'cp42' },
+        { name: 'thinc', newTexts: 4 },
+        { name: 'tu75' },
       ]
     }
   }
