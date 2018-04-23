@@ -7,10 +7,10 @@
     </div>
     <div style="height: 170px;" class="pt-4 border-top">
       <b-container fluid>
-          <b-form action="#" @submit="onChatSubmit">
-            <b-form-input size="sm" type="text" name="chatInput" id="" ref="chatInput">
-            </b-form-input>
-          </b-form>
+        <b-form action="#" @submit="onChatSubmit">
+          <b-form-input size="sm" type="text" name="chatInput" id="" ref="chatInput">
+          </b-form-input>
+        </b-form>
       </b-container>
     </div>
   </b-container>

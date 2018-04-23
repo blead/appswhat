@@ -8,7 +8,7 @@
     <div v-else>
       <h6> not logged in </h6>
       <b-form @submit="onLogin">
-        <b-form-input name="username"/>
+        <b-form-input size="sm" name="username"/>
         <b-button variant="link" type="submit">login</b-button>
       </b-form>
     </div>
