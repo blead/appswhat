@@ -2,7 +2,7 @@
   <div id="app" style="height: 99vh; overflow: hidden;">
     <b-container fluid class="h-100">
       <b-row class="h-100">
-        <b-col lg="2" sm="4" class="h-100 px-0 border-right d-none d-sm-block">
+        <b-col lg="2" sm="4" md="3" class="h-100 px-0 border-right d-none d-sm-block">
           <sidebar
             :user="this.user"
             :chats="this.chats"
