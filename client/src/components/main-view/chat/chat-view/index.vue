@@ -36,9 +36,5 @@ export default {
       }
     }
   },
-  created() {
-  },
-  beforeDestroy() {
-  }
 }
 </script>
