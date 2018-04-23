@@ -3,6 +3,9 @@ module.exports = {
     {
       url: 'ws://localhost:8080',
     },
+    {
+      url: 'ws://localhost:8081',
+    },
   ],
   port: process.env.PORT || 80,
 }

@@ -16,7 +16,7 @@ server.on('listening', function() {
 
 function authorizePublish(client, packet, callback) {
   try {
-    packetHandler.handle(packet, function(newPacket) {
+    packetHandler.handle(client, packet, function(newPacket) {
       Object.keys(newPacket).forEach(function(key) {
         packet[key] = newPacket[key]
       })
