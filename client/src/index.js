@@ -1,4 +1,5 @@
-import { AppsWhatClient } from '@shared/'
+import ChatClient from './chat'
+
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueRouter from 'vue-router'
@@ -18,6 +19,7 @@ import Main from './components/main'
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
+Vue.use(ChatClient.plugin)
 /* eslint-disable no-new */
 let app = new Vue({
   el: '#app',

@@ -24,7 +24,13 @@ export default {
   methods: {
     onChatSubmit(event) {
       event.preventDefault()
-      console.log(event.target.chatInput.value)
+      const msg = event.target.chatInput.value
+      try {
+        this.$chat.client.publish(this.$route.params.topic, msg)
+        event.target.chatInput.value = ""
+      } catch(e) {
+        console.log(e)
+      }
     }
   },
   created() {

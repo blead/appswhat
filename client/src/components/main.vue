@@ -3,7 +3,8 @@
     <b-container fluid class="h-100">
       <b-row class="h-100">
         <b-col cols="2" class="h-100 px-0 border-right">
-          <sidebar/>
+          <sidebar
+            :user="this.user"/>
         </b-col>
         <b-col class="h-100 px-0">
           <main-view/>
@@ -22,6 +23,18 @@ export default {
   components: {
     'sidebar': Sidebar,
     'main-view': MainView
+  },
+  data() {
+    return {
+      user: {
+        name: 'peawyoyoyin'
+      },
+      chats: {}
+    }
+  },
+  created() {
+    this.$chat.login('peawyoyoyin')
+    console.log('logged in')
   }
 }
 </script>
