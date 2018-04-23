@@ -1,8 +1,8 @@
 <template>
-  <div id="app" style="height: 95vh; overflow: hidden;">
+  <div id="app" style="height: 99vh; overflow: hidden;">
     <b-container fluid class="h-100">
       <b-row class="h-100">
-        <b-col cols="2" class="h-100 px-0">
+        <b-col cols="2" class="h-100 px-0 border-right">
           <sidebar/>
         </b-col>
         <b-col class="h-100">
