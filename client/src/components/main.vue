@@ -41,7 +41,31 @@ export default {
       this.currentChat = topic
     },
     onUserLogin(username) {
+      this.chats={}
+      this.currentChat=""
       this.login(username)
+      this.$chat.client.on('message', (packet) => {
+        console.log(packet)
+        const { payload, topic } = packet
+        if(this.chats[topic] === undefined) {
+          console.log('new topic')
+          this.$set(this.chats, topic, {
+            newTexts: 0,
+            messages: []
+          })
+          console.log(this.chats)
+          this.$chat.client.subscribe(topic)
+        }
+        if(this.chats[topic].messages.find(msg => (msg.id === payload.id)) === undefined) {
+          this.chats[topic].messages.push({
+            ...payload,
+            own: payload.senderId === this.user.name
+          })
+          console.log('new message')
+        }
+      })
+      this.$chat.client.on('connect', () => {
+      })
     }
   },
   data() {
@@ -77,21 +101,21 @@ export default {
     }
   },
   created() {
-  //   this.login('peawyoyoyin')
-  //   this.$chat.client.on('message', (packet) => {
-  //     console.log(packet)
-  //     const { payload, topic } = packet
-  //     if(this.chats[topic].messages.find(msg => (msg.id === payload.id)) === undefined) {
-  //       this.chats[topic].messages.push({
-  //         ...payload,
-  //         own: payload.senderId === this.user.name
-  //       })
-  //       console.log('new message')
-  //     }
-  //   })
-  //   this.$chat.client.on('connect', () => {
-  //   })
-  //   console.log(`logged in as ${this.user.name}`)
+    // this.login('peawyoyoyin')
+    // this.$chat.client.on('message', (packet) => {
+    //   console.log(packet)
+    //   const { payload, topic } = packet
+    //   if(this.chats[topic].messages.find(msg => (msg.id === payload.id)) === undefined) {
+    //     this.chats[topic].messages.push({
+    //       ...payload,
+    //       own: payload.senderId === this.user.name
+    //     })
+    //     console.log('new message')
+    //   }
+    // })
+    // this.$chat.client.on('connect', () => {
+    // })
+    // console.log(`logged in as ${this.user.name}`)
   }
 }
 </script>
