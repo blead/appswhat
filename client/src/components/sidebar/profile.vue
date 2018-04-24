@@ -2,8 +2,8 @@
   <b-container fluid class="border-bottom pb-1 pt-2">
     <div v-if="this.user.name">
       <small>logged in as</small>
-      <h5 class="text-truncate"> {{ this.user.name }} </h5>
-      <b-button variant="link" @click="this.onLogout"><small>log out</small></b-button>
+      <h5 class="text-truncate mb-0"> {{ this.user.name }} </h5>
+      <b-button variant="link" @click="this.onLogout" class="pl-0 py-1"><small>log out</small></b-button>
     </div>
     <div v-else>
       <h6>not logged in</h6>
