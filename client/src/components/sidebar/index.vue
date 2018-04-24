@@ -1,8 +1,9 @@
 <template>
   <b-container fluid class="px-0 mt-2">
     <profile 
-    :user="this.user"
-    @login="this.onLogin"
+      :user="this.user"
+      @login="this.onLogin"
+      @logout="this.onLogout"
     />
     <chat-list
       v-if="this.user.name"
@@ -30,6 +31,9 @@ export default {
     },
     onLogin(username) {
       this.$emit('login', username)
+    },
+    onLogout() {
+      this.$emit('logout')
     },
     onNewChat(topic) {
       console.log(topic)
