@@ -4,6 +4,14 @@ const request = require('then-request')
 const syncRequest = require('sync-request')
 const { encode, decode } = require('msgpack-lite')
 
+const optionalPromise = (fn, ...args, callback) => {
+  if(typeof callback === 'function') {
+    fn(...args, callback)
+  } else {
+    return new Promise((resolve, reject) => fn(...args, error => error ? reject(error) : resolve()))
+  }
+}
+
 class AppsWhatClient extends EventEmitter {
   constructor(path, clientId) {
     super()
@@ -33,12 +41,22 @@ class AppsWhatClient extends EventEmitter {
     })
   }
 
-  publish(topic, data) {
-    this.client.publish(topic, encode(data), { qos: 2, retain: true })
+  publish(topic, data, callback) {
+    const encodedData = encode(data)
+    const options = { qos: 2, retain: true }
+    return optionalPromise(this.client.publish, topic, encodedData, options, callback)
   }
 
-  subscribe(topic) {
-    this.client.subscribe(topic)
+  subscribe(topic, callback) {
+    return optionalPromise(this.client.subscribe, topic, callback)
+  }
+
+  unsubscribe(topic, callback) {
+    return optionalPromise(this.client.unsubscribe, topic, callback)
+  }
+
+  end(callback) {
+    return optionalPromise(this.client.end, callback)
   }
 
   _getServerUrl(path) {
