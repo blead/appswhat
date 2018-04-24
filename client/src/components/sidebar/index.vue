@@ -1,5 +1,6 @@
 <template>
-  <b-container fluid class="px-0 mt-2">
+  <b-container fluid class="px-0 mt-2 h-100">
+    <div class="d-flex flex-column align-items-end h-100">
     <profile 
       :user="this.user"
       @login="this.onLogin"
@@ -11,6 +12,20 @@
       @selectTopic="this.selectTopic"
       @newChat="this.onNewChat"
     />
+    <b-container class="mt-auto mb-5">
+      <small>
+        Advanced Settings
+      </small>
+      <b-form inline
+        @submit="this.onSetHost"
+      >
+        <label for="customHost" class="mr-1" style="font-size: 0.5em;">Custom Host</label>
+        <b-input size="sm" name="customHostName" class="p-1" style="font-size: 0.5em; width: 80%;"></b-input>
+        <b-button type="submit" variant="link" class="pl-1 p-0" style="font-size: 0.5em;">set</b-button>
+        <span style="font-size: 0.5em">current host: http://localhost</span>
+      </b-form>
+    </b-container>
+    </div>
   </b-container>
 </template>
 
@@ -38,6 +53,11 @@ export default {
     onNewChat(topic) {
       console.log(topic)
       this.$emit('newChat', topic)
+    },
+    onSetHost(event) {
+      event.preventDefault()
+      const customHostName = event.target.customHostName.value
+      this.$emit('setHost', customHostName)
     }
   }
 }

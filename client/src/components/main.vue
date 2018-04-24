@@ -10,6 +10,7 @@
             @login="this.onUserLogin"
             @logout="this.onUserLogout"
             @newChat="this.onNewChat"
+            @setHost="this.onUserSetHost"
             />
         </b-col>
         <b-col class="h-100 px-0">
@@ -84,6 +85,9 @@ export default {
       this.$set(this.chats, topic, { newTexts: 0, messages: [] })
       this.$chat.client.subscribe(topic)
     },
+    onUserSetHost(hostname) {
+      console.log('onusersethost', hostname)
+    }
   },
   data() {
     return {
