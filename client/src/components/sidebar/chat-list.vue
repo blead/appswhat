@@ -17,7 +17,7 @@
     </b-list-group>
     <b-button v-b-modal.newchat variant="link" class="mt-1 ml-1 p-0">new chat</b-button>
     <b-modal id="newchat" title="New Chat" name="name" ref="newChatModal">
-      <b-form id="newchat" @submit="this.onNewChat">
+      <b-form id="newchat" @submit="this.onNewChat" autocomplete="off">
         <b-form-input placeholder="enter topic" name="topic"></b-form-input>
       </b-form>
       <template slot="modal-footer">

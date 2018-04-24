@@ -1,6 +1,6 @@
 <template>
   <b-container fluid>
-    <b-form action="#" @submit="onChatSubmit">
+    <b-form action="#" @submit="onChatSubmit" autocomplete="off">
       <b-form-input size="sm" type="text" name="chatInput" id="" ref="chatInput">
       </b-form-input>
     </b-form>
