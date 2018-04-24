@@ -1,6 +1,6 @@
 <template>
-  <b-container fluid class="h-100" style="overflow-y: scroll; overflow-x: hidden;">
-    <message v-for="message in messages" :message="message" :key="message.timestamp"/>
+  <b-container fluid class="h-100" style="overflow-y: scroll; overflow-x: hidden;" ref="container">
+    <message v-for="message in messages" :message="message" :key="message.id"/>
   </b-container>
 </template>
 
@@ -12,5 +12,8 @@ export default {
   components: {
     Message,
   },
+  updated() {
+    this.$refs.container.scrollTop = this.$refs.container.scrollHeight
+  }
 }
 </script>
