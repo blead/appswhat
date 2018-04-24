@@ -22,7 +22,7 @@
         <label for="customHost" class="mr-1" style="font-size: 0.5em;">Custom Host</label>
         <b-input size="sm" name="customHostName" class="p-1" style="font-size: 0.5em; width: 80%;"></b-input>
         <b-button type="submit" variant="link" class="pl-1 p-0" style="font-size: 0.5em;">set</b-button>
-        <span style="font-size: 0.5em">current host: http://localhost</span>
+        <span style="font-size: 0.5em">current host: {{ this.client.host }}</span>
       </b-form>
     </b-container>
     </div>
@@ -35,7 +35,7 @@ import ChatList from './chat-list'
 
 export default {
   name: 'Sidebar',
-  props: ['user', 'chats'],
+  props: ['user', 'chats', 'client'],
   components: {
     Profile,
     ChatList,

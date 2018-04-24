@@ -6,6 +6,7 @@
           <sidebar
             :user="this.user"
             :chats="this.chats"
+            :client="this.client"
             @selectTopic="this.selectTopic"
             @login="this.onUserLogin"
             @logout="this.onUserLogout"
@@ -75,7 +76,7 @@ export default {
       this.user.name = null
       this.chats = {}
       this.currentChat = null
-      this.$chat.client.client.end()
+      this.$chat.logout()
     },
     onNewChat(topic) {
       console.log('newchat', topic)
@@ -86,7 +87,11 @@ export default {
       this.$chat.client.subscribe(topic)
     },
     onUserSetHost(hostname) {
-      console.log('onusersethost', hostname)
+      this.client.host = hostname
+      if(this.$chat.client !== null) {
+        this.onUserLogout()
+      }
+      this.$chat.location = hostname
     }
   },
   data() {

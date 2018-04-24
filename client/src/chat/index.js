@@ -7,6 +7,13 @@ class ChatClient {
     _client = new AppsWhatClient(_location, clientID)
   }
 
+  static logout() {
+    if(_client !== null) {
+      _client.end()
+      _client = null
+    }
+  }
+
   static get location() {
     return _location
   }
