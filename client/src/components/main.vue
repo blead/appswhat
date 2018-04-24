@@ -40,6 +40,7 @@ export default {
     },
     selectTopic(topic) {
       this.currentChat = topic
+      this.chats[topic].newTexts = 0
     },
     onUserLogin(username) {
       this.chats={}
@@ -59,6 +60,9 @@ export default {
             ...payload,
             own: payload.senderId === this.user.name
           })
+          if(topic !== this.currentChat && !packet.retain) {
+            this.chats[topic].newTexts += 1
+          }
         }
       })
     },
