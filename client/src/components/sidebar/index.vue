@@ -12,7 +12,7 @@
       @selectTopic="this.selectTopic"
       @newChat="this.onNewChat"
     />
-    <b-container class="mt-auto mb-5">
+    <b-container class="mt-auto mb-3 pt-1 border-top">
       <small>
         Advanced Settings
       </small>

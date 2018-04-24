@@ -94,6 +94,9 @@ export default {
       user: {
         name: null
       },
+      client: {
+        host: this.$chat.location
+      },
       chats: {},
       currentChat: null,
     }
