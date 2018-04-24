@@ -1,6 +1,6 @@
 # AppsWhat
 
-## Client
+## [Client](client)
 - Web-based chat client.
 
 ## [Load Balancer](load-balancer)
