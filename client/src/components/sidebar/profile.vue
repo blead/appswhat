@@ -3,7 +3,7 @@
     <div v-if="this.user.name">
       <small>logged in as</small>
       <h5 class="text-truncate"> {{ this.user.name }} </h5>
-      <a href="#"><small>log out</small></a>
+      <b-button variant="link" @click="this.onLogout"><small>log out</small></b-button>
     </div>
     <div v-else>
       <h6> not logged in </h6>
@@ -25,6 +25,10 @@ export default {
       event.preventDefault()
       const username = event.target.username.value
       this.$emit('login', username)
+    },
+    onLogout(event) {
+      event.preventDefault()
+      this.$emit('logout')
     }
   }
 }

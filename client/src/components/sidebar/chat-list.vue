@@ -16,10 +16,14 @@
       </b-list-group-item>
     </b-list-group>
     <b-button v-b-modal.newchat variant="link" class="mt-1 ml-1 p-0">new chat</b-button>
-    <b-modal id="newchat" title="New Chat" ref="newChatModal">
-      <b-form @submit="this.onNewChat">
+    <b-modal id="newchat" title="New Chat" name="name" ref="newChatModal">
+      <b-form id="newchat" @submit="this.onNewChat">
         <b-form-input placeholder="enter topic" name="topic"></b-form-input>
       </b-form>
+      <template slot="modal-footer">
+        <b-button @click="this.cancelNewChat">Cancel</b-button>
+        <b-button variant="primary" type="submit" form="newchat">OK</b-button>
+      </template>
     </b-modal>
   </b-container>
 </template>
@@ -37,6 +41,9 @@ export default {
       const topic = event.target.topic.value
       console.log(topic)
       this.$emit('newChat', topic)
+      this.$refs.newChatModal.hide()
+    },
+    cancelNewChat() {
       this.$refs.newChatModal.hide()
     }
   }

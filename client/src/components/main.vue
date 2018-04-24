@@ -8,6 +8,7 @@
             :chats="this.chats"
             @selectTopic="this.selectTopic"
             @login="this.onUserLogin"
+            @logout="this.onUserLogout"
             @newChat="this.onNewChat"
             />
         </b-col>
@@ -38,14 +39,9 @@ export default {
       this.$chat.login(username)
       this.user.name = username
     },
-    selectTopic(topic) {
-      this.currentChat = topic
-      this.chats[topic].newTexts = 0
-    },
-    onUserLogin(username) {
+    initializeChat() {
       this.chats={}
       this.currentChat=""
-      this.login(username)
       this.$chat.client.on('message', (packet) => {
         const { payload, topic } = packet
         if(this.chats[topic] === undefined) {
@@ -66,7 +62,22 @@ export default {
         }
       })
     },
+    selectTopic(topic) {
+      this.currentChat = topic
+      this.chats[topic].newTexts = 0
+    },
+    onUserLogin(username) {
+      this.login(username)
+      this.initializeChat()
+    },
+    onUserLogout() {
+      this.user.name = null
+      this.chats = {}
+      this.currentChat = null
+      this.$chat.client.client.end()
+    },
     onNewChat(topic) {
+      console.log('newchat', topic)
       if(this.chats[topic] !== undefined) {
         return
       }
