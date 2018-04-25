@@ -46,7 +46,7 @@ servers.forEach(function(server) {
 
 app.use(cors())
 
-app.use('/messages', proxy(roundRobin(config.loggers.map(logger => logger.url)), {
+app.get('/messages', proxy(roundRobin(config.loggers.map(logger => logger.url)), {
   memoizeHost: false,
 }))
 

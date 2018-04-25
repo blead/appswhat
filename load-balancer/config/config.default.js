@@ -11,6 +11,6 @@ module.exports = {
     {
       url: 'http://localhost:8888',
     }
-  ]
+  ],
   port: process.env.PORT || 80,
 }
