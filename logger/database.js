@@ -18,12 +18,12 @@ class Database {
   query(collectionName, start, end) {
     return this._getCollection(collectionName).then(collection => Promise.all([
       collection,
-      collection.findOne({
+      start ? collection.findOne({
         'payload.id': start
-      }),
-      collection.findOne({
+      }) : {},
+      end ? collection.findOne({
         'payload.id': end
-      }),
+      }) : {},
     ])).then(([collection, startDocument, endDocument]) => collection.find({
       _id: { $gt: startDocument._id, $lt: endDocument._id }
     }, {
