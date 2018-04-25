@@ -24,7 +24,7 @@ app.get('/messages', function(req, res) {
   try {
     const { topic, start, end } = req.query
     database.query(topic, start, end).then(function(packets) {
-      res.json(packets)
+      res.json(packets.map(packet => packet.payload))
     }).catch(function(error) {
       throw error
     })
