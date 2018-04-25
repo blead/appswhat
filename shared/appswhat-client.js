@@ -3,8 +3,10 @@ const mqtt = require('mqtt')
 const request = require('then-request')
 const syncRequest = require('sync-request')
 const { encode, decode } = require('msgpack-lite')
+const { resolve } = require('url')
 
-const optionalPromise = (fn, ...args, callback) => {
+const optionalPromise = (fn, ...args) => {
+  const callback = args.pop()
   if(typeof callback === 'function') {
     fn(...args, callback)
   } else {
@@ -17,6 +19,7 @@ class AppsWhatClient extends EventEmitter {
     super()
 
     const options = clientId ? { clientId, clean: false } : {}
+    this.path = path
 
     this._getServerUrl(path).then(url => {
       this.client = mqtt.connect(url, Object.assign(options, {
@@ -57,6 +60,32 @@ class AppsWhatClient extends EventEmitter {
 
   end(callback) {
     return optionalPromise(this.client.end, callback)
+  }
+
+  getUnread(topic, ...args) {
+    const callback = args.pop()
+    const [ start, end ] = args
+
+    const req = request('GET', url.resolve(this.path, '/messages'), {
+      qs: {
+        topic,
+        start: start.id,
+        end: end.id,
+      },
+      retry: true,
+    }).getBody('utf8').then(JSON.parse).then((payloads) => {
+      if(callback) {
+        callback(null, payloads)
+      }
+    }).catch(error => {
+      if(callback) {
+        callback(error, [])
+      }
+    })
+
+    if(!callback) {
+      return req
+    }
   }
 
   _getServerUrl(path) {
