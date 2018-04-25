@@ -1,8 +1,10 @@
 const app = require('express')()
 const cors = require('cors')
+const proxy = require('express-http-proxy')
 const mqtt = require('mqtt')
 const { FibonacciHeap } = require('js-data-structures')
 
+const roundRobin = require('./round-robin')
 const config = require('./config')
 
 const servers = config.servers.map(function(server) {
@@ -43,6 +45,10 @@ servers.forEach(function(server) {
 })
 
 app.use(cors())
+
+app.use('/messages', proxy(roundRobin(config.loggers.map(logger => logger.url)), {
+  memoizeHost: false,
+}))
 
 app.get('/', function(req, res) {
   const server = serverPool.findMinimum()

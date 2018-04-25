@@ -7,5 +7,10 @@ module.exports = {
       url: 'ws://localhost:8081',
     },
   ],
+  loggers: [
+    {
+      url: 'http://localhost:8888',
+    }
+  ]
   port: process.env.PORT || 80,
 }
