@@ -20,7 +20,7 @@ client.on('message', function(packet) {
 
 app.use(cors())
 
-app.get('/message', function(req, res) {
+app.get('/messages', function(req, res) {
   try {
     const { topic, start, end } = req.query
     database.query(topic, start, end).then(function(packets) {
