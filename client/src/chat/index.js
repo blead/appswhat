@@ -9,7 +9,7 @@ class ChatClient {
 
   static logout() {
     if(_client !== null) {
-      _client.end()
+      _client.client.end()
       _client = null
     }
   }
