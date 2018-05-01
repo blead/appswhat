@@ -15,7 +15,7 @@ class ChatClient {
 ChatClient.plugin = {
   install: (Vue, options) => {
     Vue.prototype.$chat = ChatClient
-  }  
+  }
 }
 
 export default ChatClient

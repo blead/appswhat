@@ -24,11 +24,12 @@ class Database {
       end ? collection.findOne({
         'payload.id': end
       }) : {},
-    ])).then(([collection, startDocument, endDocument]) => collection.find({
-      _id: { $gt: startDocument._id, $lt: endDocument._id }
-    }, {
+    ])).then(([collection, startDocument, endDocument]) => collection.find(Object.assign({},
+      startDocument ? { '$gt': startDocument._id } : {},
+      endDocument ? { '$lt': endDocument._id } : {}
+    )), {
       projection: { _id: 0 }
-    })).then(cursor => cursor.toArray())
+    }).then(cursor => cursor.toArray())
   }
 
   _getCollection(collectionName) {

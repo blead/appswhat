@@ -3,7 +3,7 @@ const mqtt = require('mqtt')
 const request = require('then-request')
 const syncRequest = require('sync-request')
 const { encode, decode } = require('msgpack-lite')
-const { resolve } = require('url')
+const { resolve: urlResolve } = require('url')
 
 const optionalPromise = (fn, ...args) => {
   const callback = args.pop()
@@ -22,7 +22,7 @@ class AppsWhatClient extends EventEmitter {
     this.path = path
 
     this._getServerUrl(path).then(url => {
-      this.client = mqtt.connect(url, Object.assign(options, {
+      this.client = mqtt.connect(url, Object.assign({}, options, {
         transformWsUrl: () => this._getServerUrlSynchronous(path),
       }))
 
@@ -47,39 +47,43 @@ class AppsWhatClient extends EventEmitter {
   publish(topic, data, callback) {
     const encodedData = encode(data)
     const options = { qos: 2, retain: true }
-    return optionalPromise(this.client.publish, topic, encodedData, options, callback)
+    return optionalPromise(this.client.publish.bind(this.client), topic, encodedData, options, callback)
   }
 
   subscribe(topic, callback) {
-    return optionalPromise(this.client.subscribe, topic, callback)
+    return optionalPromise(this.client.subscribe.bind(this.client), topic, callback)
   }
 
   unsubscribe(topic, callback) {
-    return optionalPromise(this.client.unsubscribe, topic, callback)
+    return optionalPromise(this.client.unsubscribe.bind(this.client), topic, callback)
   }
 
   end(callback) {
-    return optionalPromise(this.client.end, callback)
+    return optionalPromise(this.client.end.bind(this.client), callback)
   }
 
   getUnread(topic, ...args) {
     const callback = args.pop()
     const [ start, end ] = args
 
-    const req = request('GET', url.resolve(this.path, '/messages'), {
+    const req = request('GET', urlResolve(this.path, '/messages'), {
       qs: {
         topic,
-        start: start.id,
-        end: end.id,
+        start: start ? start.id : undefined,
+        end: end ? end.id : undefined,
       },
       retry: true,
     }).getBody('utf8').then(JSON.parse).then((payloads) => {
       if(callback) {
         callback(null, payloads)
+      } else {
+        return payloads
       }
     }).catch(error => {
       if(callback) {
         callback(error, [])
+      } else {
+        throw error
       }
     })
 
