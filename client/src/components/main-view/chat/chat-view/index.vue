@@ -6,39 +6,31 @@
       />
     </div>
     <div style="height: 170px;" class="pt-4 border-top">
-      <b-container fluid>
-          <b-form action="#" @submit="onChatSubmit">
-            <b-form-input size="sm" type="text" name="chatInput" id="" ref="chatInput">
-            </b-form-input>
-          </b-form>
-      </b-container>
+      <chat-input
+      @chat="this.onChatSubmit"
+      />
     </div>
   </b-container>
 </template>
 
 <script>
 import Conversation from './conversation'
+import ChatInput from './chat-input'
 export default {
   name: 'ChatView',
   props: ['chatData', 'chatTopic'],
   components: {
     Conversation,
+    ChatInput,
   },
   methods: {
-    onChatSubmit(event) {
-      event.preventDefault()
-      const msg = event.target.chatInput.value
+    onChatSubmit(msg) {
       try {
         this.$chat.client.publish(this.chatTopic, msg)
-        event.target.chatInput.value = ""
       } catch(e) {
         console.log(e)
       }
     }
   },
-  created() {
-  },
-  beforeDestroy() {
-  }
 }
 </script>

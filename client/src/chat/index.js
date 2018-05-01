@@ -1,10 +1,25 @@
 import { AppsWhatClient } from '@shared'
 
-const _LOCATION = 'http://localhost:8008'
+let _location = 'http://localhost:8008'
 let _client = null
 class ChatClient {
   static login(clientID) {
-    _client = new AppsWhatClient(_LOCATION, clientID)
+    _client = new AppsWhatClient(_location, clientID)
+  }
+
+  static logout() {
+    if(_client !== null) {
+      _client.client.end()
+      _client = null
+    }
+  }
+
+  static get location() {
+    return _location
+  }
+
+  static set location(loc) {
+    _location = loc
   }
 
   static get client() {

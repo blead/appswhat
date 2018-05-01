@@ -1,18 +1,17 @@
 <template>
-  <b-container fluid>
+  <b-container fluid class="border-bottom pb-1 pt-2">
     <div v-if="this.user.name">
       <small>logged in as</small>
-      <h5 class="text-truncate"> {{ this.user.name }} </h5>
-      <a href="#"><small>log out</small></a>
+      <h5 class="text-truncate mb-0"> {{ this.user.name }} </h5>
+      <b-button variant="link" @click="this.onLogout" class="pl-0 py-1"><small>log out</small></b-button>
     </div>
     <div v-else>
-      <h6> not logged in </h6>
+      <h6>not logged in</h6>
       <b-form @submit="onLogin">
-        <b-form-input name="username"/>
-        <b-button variant="link" type="submit">login</b-button>
+        <b-form-input size="sm" class="py-0 px-1 w-75" name="username" placeholder="username"/>
+        <b-button variant="link" type="submit" class="pl-0 py-1">login</b-button>
       </b-form>
     </div>
-    <hr/>
   </b-container>
 </template>
 
@@ -25,6 +24,10 @@ export default {
       event.preventDefault()
       const username = event.target.username.value
       this.$emit('login', username)
+    },
+    onLogout(event) {
+      event.preventDefault()
+      this.$emit('logout')
     }
   }
 }

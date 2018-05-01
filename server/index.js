@@ -11,7 +11,11 @@ const aedes = Aedes({
 })
 
 aedes.on('client', function(client) {
-  console.log(`[${new Date().toLocaleTimeString()}] new client ID: ${client.id}`)
+  console.log(`[${new Date().toLocaleTimeString()}] client connect, ID: ${client.id}`)
+})
+
+aedes.on('clientDisconnect', function(client) {
+  console.log(`[${new Date().toLocaleTimeString()}] client disconnect, ID: ${client.id}`)
 })
 
 const server = require('websocket-stream').createServer({port: config.websocketPort}, aedes.handle)

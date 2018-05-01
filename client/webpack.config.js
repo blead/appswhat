@@ -43,5 +43,6 @@ module.exports =  {
     host: '0.0.0.0',
     contentBase: 'public',
     compress: true,
+    host: '0.0.0.0'
   }
 }
