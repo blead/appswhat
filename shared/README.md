@@ -38,6 +38,24 @@ client.on('message', function(packet) {
 })
 ```
 
+#### Definitions
+
+- `Payload`
+
+  An `Object` representing a single message.
+
+  ```js
+  {
+    id: 'unique-message-identifier',
+    message: 'Message Content',
+    senderId: 'IdOfSender',
+    timestamp: 1525166271
+  }
+  ```
+
+  `message` is set by the client during the publish. `id`, `senderId`, and `timestamp` are automatically included by the server.
+
+
 #### API
 
 - `AppsWhatClient(path, [clientId])`
@@ -85,21 +103,58 @@ client.on('message', function(packet) {
 
   `function (packet) {}`
 
-- `AppsWhatClient#publish(topic, data)`
+- `AppsWhatClient#publish(topic, data, [callback])`
 
   Publishes message to a topic. Messages are published with QoS 2 and positive retain flag.
+  Returns a `Promise` if `callback` is not passed.
 
   - `topic : String`, the topic to publish to.
-  - `data : Object` of the message to publish.
-    - `data.message : String`, the chat message to publish.
+  - `data : Payload` of the message to publish.
+  - `callback : function (error)`
 
-- `AppsWhatClient#subscribe(topic)`
+- `AppsWhatClient#subscribe(topic, [callback])`
 
   Subscribes to a topic or topics.
+  Returns a `Promise` if `callback` is not passed.
 
   - `topic : `
     - `String`, topic to subscribe to.
     - `Array` of topics to subscribe to.
     - `Object` with topic names as keys and QoS as values, e.g. `{'test1': 0, 'test2': 1}`.
+  - `callback : function (error, granted)`
+    - `granted : Array` of `{topic, QoS}`.
+      - `topic : String` is a subscribed topic.
+      - `QoS : Number` is the granted QoS level.
 
-    MQTT topic wildcard characters are supported (`+` for single level and `#` for multi level)
+    MQTT topic wildcard characters are supported (`+` for single level and `#` for multi level).
+
+- `AppsWhatClient#unsubscribe(topic, [callback])`
+
+  Unsubscribes from a topic or topics.
+  Returns a `Promise` if `callback` is not passed.
+
+  - `topic : `
+    - `String`, topic to unsubscribe from.
+    - `Array` of topics to unsubscribe from.
+  - `callback : function (error)`
+
+- `AppsWhatClient#end([callback])`
+
+  Closes the client.
+  Returns a `Promise` if `callback` is not passed.
+
+  - `callback : function ()`
+
+- `AppsWhatClient#getUnread(topic, [start=BEGINNING], [end=LATEST], [callback])`
+
+  Retrieves past messages sent in `topic` after `start` until before `end`.
+  If `start` or `end` is not passed, assumes the maximum time span possible.
+  Returns a `Promise` if `callback` is not passed.
+
+  - `topic : String`, the topic.
+  - `start : Payload`
+    - `start.id : String`, required if specifying a starting point.
+  - `end : Payload`
+    - `end.id : String`, required if specifying an ending point.
+  - `callback : function (error, payloads)`
+    - `payloads : Array` of `Payload`s.
