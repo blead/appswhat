@@ -42,5 +42,6 @@ module.exports =  {
     port: 9000,
     contentBase: 'public',
     compress: true,
+    host: '0.0.0.0'
   }
 }
