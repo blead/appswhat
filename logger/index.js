@@ -33,6 +33,10 @@ app.get('/messages', function(req, res) {
   }
 })
 
+app.get('/', function(req, res) {
+  res.end()
+})
+
 app.listen(config.port, function() {
   console.log(`listening on port ${config.port}`)
 })

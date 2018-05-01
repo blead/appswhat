@@ -1,12 +1,14 @@
-const aedes = require('aedes')({
-  mq: require('mqemitter-redis')(),
-  persistence: require('aedes-persistence-redis')(),
-  authorizePublish: authorizePublish,
-})
+const Aedes = require('aedes')
 const stats = require('aedes-stats')
 
 const packetHandler = require('./packet-handler')
 const config = require('./config')
+
+const aedes = Aedes({
+  mq: require('mqemitter-redis')(config.redis),
+  persistence: require('aedes-persistence-redis')(config.redis),
+  authorizePublish: authorizePublish,
+})
 
 aedes.on('client', function(client) {
   console.log(`[${new Date().toLocaleTimeString()}] new client ID: ${client.id}`)

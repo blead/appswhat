@@ -1,16 +1,16 @@
 module.exports = {
   servers: [
     {
-      url: 'ws://localhost:8080',
+      url: 'ws://server-a:8080',
     },
     {
-      url: 'ws://localhost:8081',
+      url: 'ws://server-b:8081',
     },
   ],
   loggers: [
     {
-      url: 'http://localhost:8888',
+      url: 'http://logger:8888',
     }
   ],
-  port: process.env.PORT || 80,
+  port: process.env.PORT || 8008,
 }

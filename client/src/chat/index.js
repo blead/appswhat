@@ -1,6 +1,6 @@
 import { AppsWhatClient } from '@shared'
 
-const _LOCATION = 'http://localhost'
+const _LOCATION = 'http://load-balancer:8008'
 let _client = null
 class ChatClient {
   static login(clientID) {

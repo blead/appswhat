@@ -6,6 +6,7 @@ class Database {
       size,
       max,
     }
+
     MongoClient.connect(url).then(client => {
       this.db = client.db(name)
     })
