@@ -14,7 +14,7 @@ services:
       - '9000:9000'
     restart: on-failure
     volumes:
-      - ./client:/appswhat-client
+      - ./client:/client
       - ./shared:/shared
   load-balancer:
     build:
@@ -32,7 +32,7 @@ services:
       - '8008:8008'
     restart: on-failure
     volumes:
-      - ./load-balancer:/appswhat-load-balancer
+      - ./load-balancer:/load-balancer
   logger:
     build:
       context: .
@@ -43,11 +43,9 @@ services:
     healthcheck:
       test: curl -f http://localhost:8888 || exit 1
       retries: 5
-    ports:
-      - '8888:8888'
     restart: on-failure
     volumes:
-      - ./logger:/appswhat-logger
+      - ./logger:/logger
       - ./shared:/shared
   server-a:
     build:
@@ -60,7 +58,7 @@ services:
       - '8080:8080'
     restart: on-failure
     volumes:
-      - ./server:/appswhat-server
+      - ./server:/server
   server-b:
     build:
       context: .
@@ -75,8 +73,6 @@ services:
     ports:
       - '8081:8081'
     restart: on-failure
-    volumes:
-      - ./server:/appswhat-server
   redis:
     image: redis
   mongo:
