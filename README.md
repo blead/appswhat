@@ -28,8 +28,8 @@ Each service is deployed according to the following table.
 | Logger        | None                     | `http://logger:8888`          |
 | Server A      | `ws://localhost:8080`    | `ws://server-a:8080`          |
 | Server B      | `ws://localhost:8081`    | `ws://server-b:8081`          |
-| Redis         | None                     | `ws://server-b:8081`          |
-| Mongo         | None                     | `ws://server-b:8081`          |
+| Redis         | None                     | `redis://redis:6379`          |
+| Mongo         | None                     | `mongodb://mongo:27017`       |
 
 ### Setup
 
