@@ -17,27 +17,21 @@
 </template>
 
 <script>
-import yodaSpeak from '../../../../chat/yoda-speak'
 import Yoda from './yoda.svg'
 export default {
   name: 'ChatInput',
   props: ['yoda'],
-  data: () => {
-    message: ''
+  data() {
+    return {
+      message: ''
+    }
   },
   methods: {
     onChatSubmit(event) {
       event.preventDefault()
-      const message = this.message
-      if (this.yoda) {
-        yodaSpeak(message).then(result => {
-          this.$emit('chat', result)
-          this.message = ''
-        })
-      } else {
-        this.$emit('chat', message)
-        this.message = ''
-      }
+      const msg = this.message
+      this.$emit('chat', msg)
+      this.message = ''
     },
     onYoda() {
       this.$emit('yoda')

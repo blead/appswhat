@@ -29,7 +29,7 @@ export default {
   methods: {
     onChatSubmit(msg) {
       try {
-        this.$chat.client.publish(this.chatTopic, msg)
+        this.$chat.client.publish(this.chatTopic, { message: msg, yoda: this.yoda })
       } catch(e) {
         console.log(e)
       }
