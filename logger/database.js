@@ -8,6 +8,7 @@ class Database {
     }
 
     MongoClient.connect(url).then(client => {
+      console.log('connected to Mongo')
       this.db = client.db(name)
     })
   }
@@ -21,10 +22,10 @@ class Database {
       collection,
       start ? collection.findOne({
         'payload.id': start
-      }) : {},
+      }) : null,
       end ? collection.findOne({
         'payload.id': end
-      }) : {},
+      }) : null,
     ])).then(([collection, startDocument, endDocument]) => {
       const projection = { _id: 0 }
       if(startDocument || endDocument) {
