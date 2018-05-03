@@ -49,7 +49,7 @@ export default {
         this.addTopicAndSubscribeIfNotExist(topic)
         if (this.checkIfMessageExists(topic, payload)) {
           if (retain) {
-            this.getUnreadThenHandleMessage(topic, null, payload.id, payload)
+            this.getUnreadThenHandleMessage(topic, this.chats[topic].lastMessageId, payload.id, payload)
           }
           else {
             this.handleMessage(topic, payload, false)
@@ -79,8 +79,10 @@ export default {
       }
     },
     getUnreadThenHandleMessage(topic, start, end, retainPayload) {
+      console.log(start, end)
       this.$chat.client.getUnread(topic).then(payloads => {
       // this.$chat.client.getUnread(topic, start, end, null).then(payloads => {
+        console.log('payloads', payloads)
         payloads.forEach(payload => this.handleMessage(topic, payload, true))
         this.handleMessage(topic, retainPayload, true)
       }).catch(err => console.error(err))
@@ -88,6 +90,7 @@ export default {
     handleMessage(topic, payload, retain) {
       this.chats[topic].messages.push(this.addOwn(payload))
       this.updateNewTexts(topic, retain)
+      this.chats[topic].lastMessageId = payload.id
     },
     updateNewTexts(topic, retain) {
       if (topic !== this.currentChat && !retain) {
@@ -114,6 +117,7 @@ export default {
         return
       }
       this.$set(this.chats, topic, { newTexts: 0, messages: [] })
+      this.currentChat = topic
       this.$chat.client.subscribe(topic)
     },
     onUserSetHost(hostname) {
@@ -133,7 +137,7 @@ export default {
         host: this.$chat.location
       },
       chats: {},
-      currentChat: null
+      currentChat: null,
     }
   }
 }
