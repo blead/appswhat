@@ -1,36 +1,39 @@
-import { AppsWhatClient } from '@shared'
+import { AppsWhatClient } from '@shared';
 
-let _location = 'http://localhost:8008'
-let _client = null
 class ChatClient {
+  constructor() {
+    this._location = 'http://localhost:8008';
+    this._client = null;
+  }
+
   login(clientID) {
-    _client = new AppsWhatClient(_location, clientID)
+    this._client = new AppsWhatClient(this._location, clientID);
   }
 
   logout() {
-    if(_client !== null) {
-      _client.client.end()
-      _client = null
+    if (this._client !== null) {
+      this._client.client.end();
+      this._client = null;
     }
   }
 
   get location() {
-    return _location
+    return this._location;
   }
 
   set location(loc) {
-    _location = loc
+    this._location = loc;
   }
 
   get client() {
-    return _client
+    return this._client;
   }
 }
 
 ChatClient.plugin = {
   install: (Vue, options) => {
-    Vue.prototype.$chat = new ChatClient()
+    Vue.prototype.$chat = new ChatClient();
   }
-}
+};
 
-export default ChatClient
+export default ChatClient;
