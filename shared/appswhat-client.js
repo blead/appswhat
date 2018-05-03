@@ -75,6 +75,7 @@ class AppsWhatClient extends EventEmitter {
         end: end ? end.id : undefined,
       },
       retry: true,
+      timeout: 30000,
     }).getBody('utf8').then(JSON.parse).then((payloads) => {
       if(callback) {
         callback(null, payloads)
@@ -95,11 +96,11 @@ class AppsWhatClient extends EventEmitter {
   }
 
   _getServerUrl(path) {
-    return request('GET', path, { retry: true }).getBody('utf8')
+    return request('GET', path, { retry: true, timeout: 30000 }).getBody('utf8')
   }
 
   _getServerUrlSynchronous(path) {
-    return syncRequest('GET', path, { retry: true }).getBody('utf8')
+    return syncRequest('GET', path, { retry: true, timeout: 30000 }).getBody('utf8')
   }
 }
 
