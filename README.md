@@ -21,15 +21,15 @@ Required: [Docker Compose](https://docs.docker.com/compose/install/)
 
 Each service is deployed according to the following table.
 
-| Service       | Host-to-container Access | Container-to-container Access |
-| ------------- | ------------------------ | ----------------------------- |
-| Client        | `http://localhost:9000`  | `http://client:9000`          |
-| Load Balancer | `http://localhost:8008`  | `http://load-balancer:8008`   |
-| Logger        | None                     | `http://logger:8888`          |
-| Server A      | `ws://localhost:8080`    | `ws://server-a:8080`          |
-| Server B      | `ws://localhost:8081`    | `ws://server-b:8081`          |
-| Redis         | None                     | `redis://redis:6379`          |
-| Mongo         | None                     | `mongodb://mongo:27017`       |
+| Service       | Tag             | Host-to-container Access | Container-to-container Access |
+| ------------- | --------------- | ------------------------ | ----------------------------- |
+| Client        | `client`        | `http://localhost:9000`  | `http://client:9000`          |
+| Load Balancer | `load-balancer` | `http://localhost:8008`  | `http://load-balancer:8008`   |
+| Logger        | `logger`        | None                     | `http://logger:8888`          |
+| Server A      | `server-a`      | `ws://localhost:8080`    | `ws://server-a:8080`          |
+| Server B      | `server-b`      | `ws://localhost:8081`    | `ws://server-b:8081`          |
+| Redis         | `redis`         | None                     | `redis://redis:6379`          |
+| Mongo         | `mongo`         | None                     | `mongodb://mongo:27017`       |
 
 ### Setup
 
@@ -51,5 +51,5 @@ Each `node_modules` directory is stored in a separate data volume created during
 As a result, each image has to be rebuilt after making changes to `package.json` (which would also modify the `node_modules` directory).
 
 ```sh
-docker-compose up --build
+docker-compose build --no-cache service-tag
 ```
