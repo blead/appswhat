@@ -3,33 +3,33 @@ import { AppsWhatClient } from '@shared'
 let _location = 'http://localhost:8008'
 let _client = null
 class ChatClient {
-  static login(clientID) {
+  login(clientID) {
     _client = new AppsWhatClient(_location, clientID)
   }
 
-  static logout() {
+  logout() {
     if(_client !== null) {
       _client.client.end()
       _client = null
     }
   }
 
-  static get location() {
+  get location() {
     return _location
   }
 
-  static set location(loc) {
+  set location(loc) {
     _location = loc
   }
 
-  static get client() {
+  get client() {
     return _client
   }
 }
 
 ChatClient.plugin = {
   install: (Vue, options) => {
-    Vue.prototype.$chat = ChatClient
+    Vue.prototype.$chat = new ChatClient()
   }
 }
 
