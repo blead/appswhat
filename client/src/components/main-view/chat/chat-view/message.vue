@@ -1,13 +1,13 @@
 <template>
   <div
-  class="mx-5" 
+  class="mx-5"
   :class="{'text-right': message.own}"
   >
   <small class="mb-0">{{ message.senderId }}</small>
   <br/>
   <small v-if="message.own" class="mx-2">{{ timestampText }}</small>
-  <b-alert show 
-    :variant="message.own ? 'dark' : 'light'" 
+  <b-alert show
+    :variant="message.own ? 'dark' : 'light'"
     class="mb-2 mt-0 p-0 border rounded d-inline-block"
     v-b-tooltip.click="message.message"
     >
@@ -16,7 +16,7 @@
       {{ message.message }}
       </b-media-body>
     </b-media>
-    <light-saber v-else/>
+    <light-saber v-else :color="message.yoda ? 'lawngreen' : colors[message.id.charCodeAt(0)%colors.length]"/>
   </b-alert>
   <small v-if="!message.own" class="mx-2">{{ timestampText }}</small>
   </div>
@@ -33,6 +33,9 @@ export default {
   computed: {
     timestampText: function() {
       return new Date(this.message.timestamp).toLocaleTimeString()
+    },
+    colors: function() {
+      return ['red', 'fuchsia', 'yellow', 'orange', 'black', undefined]
     }
   }
 }
