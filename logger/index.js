@@ -14,6 +14,7 @@ client.on('connect', function() {
 })
 
 client.on('message', function(packet) {
+  console.log(`${packet.payload.id}, retained: ${packet.retain}`)
   if(!packet.retain) {
     database.insert(packet.topic, packet)
   }

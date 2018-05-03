@@ -21,8 +21,9 @@ class AppsWhatClient extends EventEmitter {
     const options = clientId ? { clientId, clean: false } : {}
     this.path = path
 
+    console.log(`connecting to ${path}`)
     this._getServerUrl(path).then(url => {
-      console.log(`connecting to ${path}`)
+      console.log(`connecting to ${url}`)
       this.client = mqtt.connect(url, Object.assign({}, options, {
         transformWsUrl: () => this._getServerUrlSynchronous(path),
       }))
