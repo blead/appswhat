@@ -15,6 +15,7 @@
               backgroundColor: chatdata.paused ? 'lightgray' : '',
               color: chatdata.paused ? 'white' : ''
               }"
+            style="transition: background-color 0.2s, color 0.2s;"
             class="d-flex justify-content-between align-items-center p-1"
           >
             {{ chatname }}
