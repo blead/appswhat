@@ -44,3 +44,12 @@ Clean up containers, volumes, networks, and images created by `up`.
 ```sh
 docker-compose down
 ```
+
+### Rebuilding
+
+Each `node_modules` directory is stored in a separate data volume created during the build process.
+As a result, each image has to be rebuilt after making changes to `package.json` (which would also modify the `node_modules` directory).
+
+```sh
+docker-compose up --build
+```

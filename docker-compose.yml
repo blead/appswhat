@@ -16,6 +16,8 @@ services:
     volumes:
       - ./client:/client
       - ./shared:/shared
+      - /client/node_modules
+      - /shared/node_modules
   load-balancer:
     build:
       context: .
@@ -33,6 +35,7 @@ services:
     restart: on-failure
     volumes:
       - ./load-balancer:/load-balancer
+      - /load-balancer/node_modules
   logger:
     build:
       context: .
@@ -47,6 +50,8 @@ services:
     volumes:
       - ./logger:/logger
       - ./shared:/shared
+      - /logger/node_modules
+      - /shared/node_modules
   server-a:
     build:
       context: .
@@ -59,6 +64,7 @@ services:
     restart: on-failure
     volumes:
       - ./server:/server
+      - /server/node_modules
   server-b:
     build:
       context: .
