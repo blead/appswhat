@@ -43,9 +43,7 @@ services:
     image: appswhat-logger
     depends_on:
       - mongo
-    healthcheck:
-      test: curl -f http://localhost:8888 || exit 1
-      retries: 5
+    network_mode: 'host'
     restart: on-failure
     volumes:
       - ./logger:/logger
@@ -83,3 +81,5 @@ services:
     image: redis
   mongo:
     image: mongo
+    ports:
+      - '27017:27017'

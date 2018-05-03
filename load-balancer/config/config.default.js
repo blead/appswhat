@@ -11,7 +11,7 @@ module.exports = {
   ],
   loggers: [
     {
-      url: 'http://logger:8888',
+      url: 'http://localhost:8888',
     }
   ],
   port: process.env.PORT || 8008,
