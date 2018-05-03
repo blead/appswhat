@@ -15,6 +15,7 @@
     "mqemitter-redis": "^2.3.0",
     "msgpack-lite": "^0.1.26",
     "nanoid": "^1.0.2",
+    "soap": "^0.24.0",
     "websocket-stream": "^5.1.2"
   }
 }

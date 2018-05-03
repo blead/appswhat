@@ -2,12 +2,12 @@
   <b-container fluid>
     <div class="d-flex flex-row">
       <b-form action="#" id="chat-input" @submit="onChatSubmit" autocomplete="off" style="width: 90%;">
-        <b-form-input size="sm" type="text" name="chatInput" id="" ref="chatInput">
+        <b-form-input size="sm" type="text" name="chatInput" id="" v-model="message">
         </b-form-input>
       </b-form>
-      <button 
+      <button
         class="btn btn-link p-0 bg-transparent"
-        @click="onYoda"  
+        @click="onYoda"
       >
         <yoda class="yoda-icon" :style="{fill: this.yoda ? 'green' : 'black'}"/>
       </button>
@@ -21,12 +21,17 @@ import Yoda from './yoda.svg'
 export default {
   name: 'ChatInput',
   props: ['yoda'],
+  data() {
+    return {
+      message: ''
+    }
+  },
   methods: {
     onChatSubmit(event) {
       event.preventDefault()
-      const msg = event.target.chatInput.value
+      const msg = this.message
       this.$emit('chat', msg)
-      event.target.chatInput.value = ""
+      this.message = ''
     },
     onYoda() {
       this.$emit('yoda')

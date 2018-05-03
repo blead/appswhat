@@ -26,4 +26,19 @@ function yodaSpeak(message, url = 'http://www.yodaspeak.co.uk/webservice/yodatal
     })
 }
 
-module.exports = yodaSpeak
+module.exports = function(client, packet, next) {
+  if (packet.payload.yoda && packet.payload.message) {
+    yodaSpeak(packet.payload.message).then(result => {
+      next({
+        ...packet,
+        payload: {
+          ...packet.payload,
+          message: result,
+        }
+      })
+    })
+  } else {
+    next(packet)
+  }
+}
+

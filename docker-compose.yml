@@ -24,7 +24,6 @@ services:
       dockerfile: load-balancer.Dockerfile
     image: appswhat-load-balancer
     depends_on:
-      - logger
       - server-a
       - server-b
     healthcheck:
@@ -41,6 +40,7 @@ services:
       dockerfile: logger.Dockerfile
     image: appswhat-logger
     depends_on:
+      - load-balancer
       - mongo
     healthcheck:
       test: curl -f http://localhost:8888 || exit 1
