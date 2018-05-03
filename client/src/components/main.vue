@@ -120,6 +120,9 @@ export default {
       this.$set(this.chats, topic, { newTexts: 0, messages: [], paused: false })
       this.currentChat = topic
       this.$chat.client.subscribe(topic)
+      if (this.currentChat === null) {
+        this.selectTopic(topic)
+      }
     },
     onLeaveChat(topic) {
       console.log(`leave chat ${topic}`)
