@@ -95,6 +95,7 @@ export default {
       const unreads = payloads.map(this.addOwn)
       console.log(unreadMessages)
       if(unreadMessages === null || unreadMessages === undefined) {
+        console.log(this.chats[topic])
         this.chats[topic].unreadMessages = unreads
       } else {
         this.chats[topic].unreadMessages.push(...unreads)
@@ -134,7 +135,7 @@ export default {
       if (this.chats[topic] !== undefined) {
         return
       }
-      this.$set(this.chats, topic, { newTexts: 0, messages: [], paused: false })
+      this.addTopicAndSubscribeIfNotExist(topic)
       this.currentChat = topic
       this.$chat.client.subscribe(topic)
       if (this.currentChat === null) {
@@ -143,11 +144,8 @@ export default {
     },
     onLeaveChat(topic) {
       console.log(`leave chat ${topic}`)
-<<<<<<< Updated upstream
       this.$delete(this.chats, topic)
-=======
       this.$chat.client.unsubscribe(topic)
->>>>>>> Stashed changes
     },
     onPauseChat(topic) {
       console.log(`pause chat ${topic}`)
