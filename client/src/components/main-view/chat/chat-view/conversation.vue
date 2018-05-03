@@ -1,7 +1,10 @@
 <template>
   <b-container fluid class="h-100" style="overflow-y: scroll; overflow-x: hidden;" ref="container">
+    <div v-if="unreadMessages === null" class="m-3">
+      <span>loading history...</span>
+      <i class="fas fa-spinner fa-spin fa-pulse"></i>
+    </div>
 
-    <h4 v-if="unreadMessages === null">loading history...</h4>
     <message v-if="unreadMessages" v-for="message in unreadMessages" :message="message" :key="message.id"/>
     <message v-for="message in messages" :message="message" :key="message.id"/>
   </b-container>
