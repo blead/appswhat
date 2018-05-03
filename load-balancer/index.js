@@ -10,7 +10,7 @@ const config = require('./config')
 const servers = config.servers.map(function(server) {
   return {
     url: server.url,
-    connection: mqtt.connect(server.internalPath),
+    connection: mqtt.connect(server.url),
     load: null,
     poolItem: null,
   }
