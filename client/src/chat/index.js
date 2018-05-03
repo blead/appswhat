@@ -11,10 +11,10 @@ class ChatClient {
   }
 
   logout() {
-    if (this._client !== null) {
+    if (this._client !== null && this._client.client) {
       this._client.client.end();
-      this._client = null;
     }
+    this._client = null;
   }
 
   get location() {
