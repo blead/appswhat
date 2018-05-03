@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import LightSaber from './lightsaber_new.svg'
+import LightSaber from './lightsaber.svg'
 export default {
   name: 'Message',
   props: ['message'],
