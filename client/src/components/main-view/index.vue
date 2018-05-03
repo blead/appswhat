@@ -4,6 +4,8 @@
   :user="this.user"
   :chatTopic="this.currentChat"
   :chatData="this.chats[this.currentChat]"
+  :yoda="this.yoda"
+  @yoda="onYoda"
   />
   <blank v-else/>
 </template>
@@ -17,6 +19,11 @@ export default {
     Chat,
     Blank
   },
-  props: ['user', 'chats', 'currentChat']
+  props: ['user', 'chats', 'currentChat', 'yoda'],
+  methods: {
+    onYoda() {
+      this.$emit('yoda')
+    }
+  }
 }
 </script>

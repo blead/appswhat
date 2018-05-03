@@ -7,6 +7,8 @@
     <chat-view
     :chatData="this.chatData"
     :chatTopic="this.chatTopic"
+    :yoda="this.yoda"
+    @yoda="onYoda"
     />
   </b-container>
 </template>
@@ -20,6 +22,11 @@ export default {
     ChatInfo,
     ChatView
   },
-  props: ['chatTopic', 'chatData']
+  props: ['chatTopic', 'chatData', 'yoda'],
+  methods: {
+    onYoda() {
+      this.$emit('yoda')
+    }
+  }
 }
 </script>

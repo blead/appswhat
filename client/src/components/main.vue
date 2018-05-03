@@ -21,6 +21,8 @@
             :user="this.user"
             :chats="this.chats"
             :currentChat="this.currentChat"
+            :yoda="this.yoda"
+            @yoda="onYoda"
           />
         </b-col>
       </b-row>
@@ -117,6 +119,10 @@ export default {
       this.login(username)
       this.initializeChat()
     },
+    onYoda() {
+      console.log('toggle yoda')
+      this.yoda = !this.yoda
+    },
     onUserLogout() {
       this.user.name = null
       this.chats = {}
@@ -131,12 +137,21 @@ export default {
       this.$set(this.chats, topic, { newTexts: 0, messages: [], paused: false })
       this.currentChat = topic
       this.$chat.client.subscribe(topic)
+      if (this.currentChat === null) {
+        this.selectTopic(topic)
+      }
     },
     onLeaveChat(topic) {
       console.log(`leave chat ${topic}`)
+      this.$delete(this.chats, topic)
     },
     onPauseChat(topic) {
       console.log(`pause chat ${topic}`)
+      if(this.chats[topic].paused) {
+        // unpause
+      } else {
+        // pause
+      }
       this.chats[topic].paused = !this.chats[topic].paused
       const {messages}  = this.chats[topic]
       if (this.chats[topic].paused) {
@@ -167,6 +182,7 @@ export default {
       },
       chats: {},
       currentChat: null,
+      yoda: false,
     }
   }
 }
