@@ -8,12 +8,17 @@
         :key="chatname"
       >
         <b-list-group-item 
-          href="#"
-          @click="onSelectTopic(chatname)"
-          class="d-flex justify-content-between align-items-center p-1"
+            href="#"
+            @click="onSelectTopic(chatname)"
+            :style="{ 
+              fontStyle: chatdata.paused ? 'italic' : '', 
+              backgroundColor: chatdata.paused ? 'lightgray' : '',
+              color: chatdata.paused ? 'white' : ''
+              }"
+            class="d-flex justify-content-between align-items-center p-1"
           >
             {{ chatname }}
-          <b-badge v-if="chatdata.newTexts >= 0" variant="secondary" class="mr-1">
+          <b-badge v-if="chatdata.newTexts > 0" variant="secondary" class="mr-1">
             {{ chatdata.newTexts }}
           </b-badge>
         </b-list-group-item>

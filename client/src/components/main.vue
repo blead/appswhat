@@ -51,6 +51,7 @@ export default {
         if(this.chats[topic] === undefined) {
           this.$set(this.chats, topic, {
             newTexts: 0,
+            paused: false,
             messages: []
           })
           this.$chat.client.subscribe(topic)
@@ -85,7 +86,7 @@ export default {
       if(this.chats[topic] !== undefined) {
         return
       }
-      this.$set(this.chats, topic, { newTexts: 0, messages: [] })
+      this.$set(this.chats, topic, { newTexts: 0, messages: [], paused: false })
       this.$chat.client.subscribe(topic)
     },
     onLeaveChat(topic) {
@@ -93,6 +94,8 @@ export default {
     },
     onPauseChat(topic) {
       console.log(`pause chat ${topic}`)
+      this.chats[topic].paused = !this.chats[topic].paused
+      console.log(this.chats[topic])
     },
     onUserSetHost(hostname) {
       this.client.host = hostname
