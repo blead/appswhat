@@ -27,11 +27,7 @@ services:
       - logger
       - server-a
       - server-b
-    healthcheck:
-      test: curl -f http://localhost:8008 || exit 1
-      retries: 5
-    ports:
-      - '8008:8008'
+    network_mode: 'host'
     restart: on-failure
     volumes:
       - ./load-balancer:/load-balancer
