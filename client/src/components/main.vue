@@ -84,12 +84,24 @@ export default {
       }
     },
     getUnread(topic, start, end, retainPayload) {
-      this.$chat.client.getUnread(topic, {id: start}, {id: end}, null).then(payloads => {
         console.log(start, end)
-        console.log('payloads', payloads)
-        this.chats[topic].unreadMessages = payloads.map(this.addOwn)
-      }).catch(err => console.error(err))
+      this.$chat.client.getUnread(topic, {id: start}, {id: end}, null)
+        .then(payloads => this.handleUnreads(topic, payloads))
+        .catch(err => console.error(err))
     },
+    handleUnreads(topic, payloads) {
+      console.log('payloads', payloads)
+      const {unreadMessages, messages} = this.chats[topic]
+      const unreads = payloads.map(this.addOwn)
+      console.log(unreadMessages)
+      if(unreadMessages === null || unreadMessages === undefined) {
+        console.log(this.chats[topic])
+        this.chats[topic].unreadMessages = unreads
+      } else {
+        this.chats[topic].unreadMessages.push(...unreads)
+      }
+    }
+    ,
     handleMessage(topic, payload, retain) {
       this.chats[topic].messages.push(this.addOwn(payload))
       this.updateNewTexts(topic, retain)
@@ -123,7 +135,7 @@ export default {
       if (this.chats[topic] !== undefined) {
         return
       }
-      this.$set(this.chats, topic, { newTexts: 0, messages: [], paused: false })
+      this.addTopicAndSubscribeIfNotExist(topic)
       this.currentChat = topic
       this.$chat.client.subscribe(topic)
       if (this.currentChat === null) {
@@ -133,6 +145,7 @@ export default {
     onLeaveChat(topic) {
       console.log(`leave chat ${topic}`)
       this.$delete(this.chats, topic)
+      this.$chat.client.unsubscribe(topic)
     },
     onPauseChat(topic) {
       console.log(`pause chat ${topic}`)
@@ -142,6 +155,15 @@ export default {
         // pause
       }
       this.chats[topic].paused = !this.chats[topic].paused
+      const {messages}  = this.chats[topic]
+      if (this.chats[topic].paused) {
+        this.chats[topic].unreadMessages.push(...this.chats[topic].messages)
+        this.chats[topic].messages = []
+        this.$chat.client.unsubscribe(topic)
+      } else {
+        this.$chat.client.subscribe(topic)
+      }
+
       console.log(this.chats[topic])
     },
     onUserSetHost(hostname) {
