@@ -8,6 +8,8 @@
     <div style="height: 170px;" class="pt-4 border-top">
       <chat-input
       @chat="this.onChatSubmit"
+      @yoda="onYoda"
+      :yoda="this.yoda"
       />
     </div>
   </b-container>
@@ -18,7 +20,7 @@ import Conversation from './conversation'
 import ChatInput from './chat-input'
 export default {
   name: 'ChatView',
-  props: ['chatData', 'chatTopic'],
+  props: ['chatData', 'chatTopic', 'yoda'],
   components: {
     Conversation,
     ChatInput,
@@ -30,6 +32,10 @@ export default {
       } catch(e) {
         console.log(e)
       }
+    },
+    onYoda() {
+      this.$emit('yoda')
+      console.log('yoda', this.yoda)
     }
   },
 }
