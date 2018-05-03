@@ -51,7 +51,7 @@ export default {
       this.$chat.client.on('message', packet => {
         const { payload, topic, retain } = packet
         this.addTopicAndSubscribeIfNotExist(topic)
-        if (this.checkIfMessageExists(topic, payload)) {
+        if (this.checkIfMessageNotExists(topic, payload)) {
           if (retain) {
             this.getUnread(topic, this.chats[topic].lastMessageId, payload.id, payload)
           }
@@ -59,23 +59,28 @@ export default {
         }
       })
     },
-    addTopicAndSubscribeIfNotExist(topic) {
+    addTopicAndSubscribeIfNotExist(topic, isNew) {
       if (this.chats[topic] === undefined) {
         this.$set(this.chats, topic, {
           newTexts: 0,
           messages: [],
-          unreadMessages: null,
+          unreadMessages: isNew ? [] : null, 
           lastMessageId: null,
           paused: false
         })
         this.$chat.client.subscribe(topic)
       }
     },
-    checkIfMessageExists(topic, findMsg) {
-      const result = this.chats[topic].messages.find(
+    checkIfMessageNotExists(topic, findMsg) {
+      const {messages, unreadMessages} = this.chats[topic]
+      const result = messages.find(
         msg => msg.id === findMsg.id
       )
-      return result === undefined
+      const result2 = unreadMessages ? unreadMessages.find(
+        msg => msg.id === findMsg.id
+      ) : undefined
+
+      return result === undefined && result2 === undefined
     },
     addOwn(payload) {
       return {
@@ -84,12 +89,24 @@ export default {
       }
     },
     getUnread(topic, start, end, retainPayload) {
-      this.$chat.client.getUnread(topic, {id: start}, {id: end}, null).then(payloads => {
         console.log(start, end)
-        console.log('payloads', payloads)
-        this.chats[topic].unreadMessages = payloads.map(this.addOwn)
-      }).catch(err => console.error(err))
+      this.$chat.client.getUnread(topic, {id: start}, {id: end}, null)
+        .then(payloads => this.handleUnreads(topic, payloads))
+        .catch(err => console.error(err))
     },
+    handleUnreads(topic, payloads) {
+      console.log('payloads', payloads)
+      const {unreadMessages, messages} = this.chats[topic]
+      const unreads = payloads.map(this.addOwn)
+      console.log(unreadMessages)
+      if(unreadMessages === null || unreadMessages === undefined) {
+        console.log(this.chats[topic])
+        this.chats[topic].unreadMessages = unreads
+      } else {
+        this.chats[topic].unreadMessages.push(...unreads)
+      }
+    }
+    ,
     handleMessage(topic, payload, retain) {
       this.chats[topic].messages.push(this.addOwn(payload))
       this.updateNewTexts(topic, retain)
@@ -123,7 +140,7 @@ export default {
       if (this.chats[topic] !== undefined) {
         return
       }
-      this.$set(this.chats, topic, { newTexts: 0, messages: [], paused: false })
+      this.addTopicAndSubscribeIfNotExist(topic, true)
       this.currentChat = topic
       this.$chat.client.subscribe(topic)
       if (this.currentChat === null) {
@@ -133,16 +150,25 @@ export default {
     onLeaveChat(topic) {
       console.log(`leave chat ${topic}`)
       this.$delete(this.chats, topic)
+      this.$chat.client.unsubscribe(topic)
     },
     onPauseChat(topic) {
       console.log(`pause chat ${topic}`)
-      if(this.chats[topic].paused) {
-        // unpause
-      } else {
-        // pause
-      }
-      this.chats[topic].paused = !this.chats[topic].paused
       console.log(this.chats[topic])
+      this.chats[topic].paused = !this.chats[topic].paused
+      const {messages}  = this.chats[topic]
+      if (this.chats[topic].paused) {
+        if (!this.chats[topic].unreadMessages) {
+          this.chats[topic].unreadMessages = this.chats[topic].messages
+        } else {
+          this.chats[topic].unreadMessages.push(...this.chats[topic].messages)
+        }
+        this.chats[topic].messages = []
+        this.$chat.client.unsubscribe(topic)
+      } else {
+        this.$chat.client.subscribe(topic)
+      }
+
     },
     onUserSetHost(hostname) {
       this.client.host = hostname
