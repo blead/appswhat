@@ -59,12 +59,12 @@ export default {
         }
       })
     },
-    addTopicAndSubscribeIfNotExist(topic) {
+    addTopicAndSubscribeIfNotExist(topic, isNew) {
       if (this.chats[topic] === undefined) {
         this.$set(this.chats, topic, {
           newTexts: 0,
           messages: [],
-          unreadMessages: null,
+          unreadMessages: isNew ? [] : null, 
           lastMessageId: null,
           paused: false
         })
@@ -140,7 +140,7 @@ export default {
       if (this.chats[topic] !== undefined) {
         return
       }
-      this.addTopicAndSubscribeIfNotExist(topic)
+      this.addTopicAndSubscribeIfNotExist(topic, true)
       this.currentChat = topic
       this.$chat.client.subscribe(topic)
       if (this.currentChat === null) {
