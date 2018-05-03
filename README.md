@@ -52,6 +52,6 @@ As a result, each image has to be rebuilt after making changes to `package.json`
 
 ```sh
 docker volume prune
-docker-compose build --no-cache service-name
+docker-compose build --no-cache service-tag
 docker-compose up --build
 ```
