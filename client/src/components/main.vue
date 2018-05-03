@@ -121,9 +121,15 @@ export default {
     },
     onLeaveChat(topic) {
       console.log(`leave chat ${topic}`)
+      this.$set(this.chats, topic, undefined)
     },
     onPauseChat(topic) {
       console.log(`pause chat ${topic}`)
+      if(this.chats[topic].paused) {
+        // unpause
+      } else {
+        // pause
+      }
       this.chats[topic].paused = !this.chats[topic].paused
       console.log(this.chats[topic])
     },
