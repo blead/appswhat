@@ -51,5 +51,7 @@ Each `node_modules` directory is stored in a separate data volume created during
 As a result, each image has to be rebuilt after making changes to `package.json` (which would also modify the `node_modules` directory).
 
 ```sh
-docker-compose build --no-cache service-tag
+docker volume prune
+docker-compose build --no-cache service-name
+docker-compose up --build
 ```
