@@ -25,11 +25,16 @@ class Database {
       end ? collection.findOne({
         'payload.id': end
       }) : {},
-    ])).then(([collection, startDocument, endDocument]) => collection.find(Object.assign({},
-      startDocument ? { '$gt': startDocument._id } : {},
-      endDocument ? { '$lt': endDocument._id } : {}
-    )), {
-      projection: { _id: 0 }
+    ])).then(([collection, startDocument, endDocument]) => {
+      const projection = { _id: 0 }
+      if(startDocument || endDocument) {
+        const operators = Object.assign(
+          startDocument ? { '$gt': startDocument._id } : {},
+          endDocument ? { '$lt': endDocument._id } : {}
+        )
+        return collection.find({ _id: operators }, projection)
+      }
+      return collection.find({}, projection)
     }).then(cursor => cursor.toArray())
   }
 
