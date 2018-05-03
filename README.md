@@ -21,15 +21,15 @@ Required: [Docker Compose](https://docs.docker.com/compose/install/)
 
 Each service is deployed according to the following table.
 
-| Service       | Tag             | Host-to-container Access | Container-to-container Access |
-| ------------- | --------------- | ------------------------ | ----------------------------- |
-| Client        | `client`        | `http://localhost:9000`  | `http://client:9000`          |
-| Load Balancer | `load-balancer` | `http://localhost:8008`  | `http://load-balancer:8008`   |
-| Logger        | `logger`        | None                     | `http://logger:8888`          |
-| Server A      | `server-a`      | `ws://localhost:8080`    | `ws://server-a:8080`          |
-| Server B      | `server-b`      | `ws://localhost:8081`    | `ws://server-b:8081`          |
-| Redis         | `redis`         | None                     | `redis://redis:6379`          |
-| Mongo         | `mongo`         | None                     | `mongodb://mongo:27017`       |
+| Service       | Tag             | Network | Host-to-container Access    | Container-to-container Access |
+| ------------- | --------------- | ------- | --------------------------- | ----------------------------- |
+| Client        | `client`        | Host    | `http://localhost:9000`     | None                          |
+| Load Balancer | `load-balancer` | Host    | `http://localhost:8008`     | None                          |
+| Logger        | `logger`        | Host    | `http://localhost:8888`     | None                          |
+| Server A      | `server-a`      | Bridge  | `ws://localhost:8080`       | None                          |
+| Server B      | `server-b`      | Bridge  | `ws://localhost:8081`       | `ws://server-b:8080`          |
+| Redis         | `redis`         | Bridge  | None                        | `redis://redis:6379`          |
+| Mongo         | `mongo`         | Bridge  | `mongodb://localhost:27017` | None                          |
 
 ### Setup
 

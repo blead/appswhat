@@ -44,28 +44,58 @@ export default {
       this.user.name = username
     },
     initializeChat() {
-      this.chats={}
-      this.currentChat=""
-      this.$chat.client.on('message', (packet) => {
-        const { payload, topic } = packet
-        if(this.chats[topic] === undefined) {
-          this.$set(this.chats, topic, {
-            newTexts: 0,
-            paused: false,
-            messages: []
-          })
-          this.$chat.client.subscribe(topic)
-        }
-        if(this.chats[topic].messages.find(msg => (msg.id === payload.id)) === undefined) {
-          this.chats[topic].messages.push({
-            ...payload,
-            own: payload.senderId === this.user.name
-          })
-          if(topic !== this.currentChat && !packet.retain) {
-            this.chats[topic].newTexts += 1
+      this.chats = {}
+      this.currentChat = ''
+      this.$chat.client.on('message', packet => {
+        const { payload, topic, retain } = packet
+        this.addTopicAndSubscribeIfNotExist(topic)
+        if (this.checkIfMessageExists(topic, payload)) {
+          if (retain) {
+            this.getUnreadThenHandleMessage(topic, null, payload.id, payload)
+          }
+          else {
+            this.handleMessage(topic, payload, false)
           }
         }
       })
+    },
+    addTopicAndSubscribeIfNotExist(topic) {
+      if (this.chats[topic] === undefined) {
+        this.$set(this.chats, topic, {
+          newTexts: 0,
+          messages: [],
+          paused: false,
+        })
+        this.$chat.client.subscribe(topic)
+      }
+    },
+    checkIfMessageExists(topic, findMsg) {
+      const result = this.chats[topic].messages.find(
+        msg => msg.id === findMsg.id
+      )
+      return result === undefined
+    },
+    addOwn(payload) {
+      return {
+        ...payload,
+        own: this.user.name === payload.senderId
+      }
+    },
+    getUnreadThenHandleMessage(topic, start, end, retainPayload) {
+      this.$chat.client.getUnread(topic).then(payloads => {
+      // this.$chat.client.getUnread(topic, start, end, null).then(payloads => {
+        payloads.forEach(payload => this.handleMessage(topic, payload, true))
+        this.handleMessage(topic, retainPayload, true)
+      }).catch(err => console.error(err))
+    },
+    handleMessage(topic, payload, retain) {
+      this.chats[topic].messages.push(this.addOwn(payload))
+      this.updateNewTexts(topic, retain)
+    },
+    updateNewTexts(topic, retain) {
+      if (topic !== this.currentChat && !retain) {
+        this.chats[topic].newTexts += 1
+      }
     },
     selectTopic(topic) {
       this.currentChat = topic
@@ -83,7 +113,7 @@ export default {
     },
     onNewChat(topic) {
       console.log('newchat', topic)
-      if(this.chats[topic] !== undefined) {
+      if (this.chats[topic] !== undefined) {
         return
       }
       this.$set(this.chats, topic, { newTexts: 0, messages: [], paused: false })
@@ -99,7 +129,7 @@ export default {
     },
     onUserSetHost(hostname) {
       this.client.host = hostname
-      if(this.$chat.client !== null) {
+      if (this.$chat.client !== null) {
         this.onUserLogout()
       }
       this.$chat.location = hostname
@@ -114,9 +144,9 @@ export default {
         host: this.$chat.location
       },
       chats: {},
-      currentChat: null,
+      currentChat: null
     }
-  },
+  }
 }
 </script>
 

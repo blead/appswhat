@@ -9,10 +9,12 @@ const client = new AppsWhatClient(config.mqtt.path, config.mqtt.clientId)
 const database = new Database(config.database)
 
 client.on('connect', function() {
+  console.log('connected')
   client.subscribe('#')
 })
 
 client.on('message', function(packet) {
+  console.log(`${packet.payload.id}, retained: ${packet.retain}`)
   if(!packet.retain) {
     database.insert(packet.topic, packet)
   }
