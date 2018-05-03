@@ -1,5 +1,5 @@
 <template>
-  <b-modal :id="this.modalID" title="New Chat" name="name" ref="modal" @shown="this.onShown">
+  <b-modal :id="modalID" title="New Chat" name="name" ref="modal" @shown="onShown" @hidden="onHidden">
     <b-form id="newchat" @submit="this.onNewChat" autocomplete="off">
       <b-form-input placeholder="enter topic" name="topic" ref="topicInput" v-model="topic"></b-form-input>
     </b-form>
@@ -23,8 +23,11 @@ export default {
     onOk() {
       alert(this.topic)
     },
-    onShown(e) {
+    onShown() {
       this.$refs.topicInput.focus()
+    },
+    onHidden() {
+      this.topic = ''
     },
     onNewChat(event) {
       event.preventDefault()

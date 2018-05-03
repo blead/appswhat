@@ -53,11 +53,9 @@ export default {
         this.addTopicAndSubscribeIfNotExist(topic)
         if (this.checkIfMessageExists(topic, payload)) {
           if (retain) {
-            this.getUnreadThenHandleMessage(topic, null, payload.id, payload)
+            this.getUnread(topic, this.chats[topic].lastMessageId, payload.id, payload)
           }
-          else {
-            this.handleMessage(topic, payload, false)
-          }
+          this.handleMessage(topic, payload, retain)
         }
       })
     },
@@ -66,7 +64,9 @@ export default {
         this.$set(this.chats, topic, {
           newTexts: 0,
           messages: [],
-          paused: false,
+          unreadMessages: null,
+          lastMessageId: null,
+          paused: false
         })
         this.$chat.client.subscribe(topic)
       }
@@ -83,16 +83,17 @@ export default {
         own: this.user.name === payload.senderId
       }
     },
-    getUnreadThenHandleMessage(topic, start, end, retainPayload) {
-      this.$chat.client.getUnread(topic).then(payloads => {
-      // this.$chat.client.getUnread(topic, start, end, null).then(payloads => {
-        payloads.forEach(payload => this.handleMessage(topic, payload, true))
-        this.handleMessage(topic, retainPayload, true)
+    getUnread(topic, start, end, retainPayload) {
+      this.$chat.client.getUnread(topic, {id: start}, {id: end}, null).then(payloads => {
+        console.log(start, end)
+        console.log('payloads', payloads)
+        this.chats[topic].unreadMessages = payloads.map(this.addOwn)
       }).catch(err => console.error(err))
     },
     handleMessage(topic, payload, retain) {
       this.chats[topic].messages.push(this.addOwn(payload))
       this.updateNewTexts(topic, retain)
+      this.chats[topic].lastMessageId = payload.id
     },
     updateNewTexts(topic, retain) {
       if (topic !== this.currentChat && !retain) {
@@ -123,7 +124,11 @@ export default {
         return
       }
       this.$set(this.chats, topic, { newTexts: 0, messages: [], paused: false })
+      this.currentChat = topic
       this.$chat.client.subscribe(topic)
+      if (this.currentChat === null) {
+        this.selectTopic(topic)
+      }
     },
     onLeaveChat(topic) {
       console.log(`leave chat ${topic}`)
