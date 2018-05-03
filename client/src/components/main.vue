@@ -12,6 +12,8 @@
             @logout="this.onUserLogout"
             @newChat="this.onNewChat"
             @setHost="this.onUserSetHost"
+            @pauseChat="onPauseChat"
+            @leaveChat="onLeaveChat"
             />
         </b-col>
         <b-col class="h-100 px-0">
@@ -61,7 +63,8 @@ export default {
           newTexts: 0,
           messages: [],
           unreadMessages: null,
-          lastMessageId: null
+          lastMessageId: null,
+          paused: false
         })
         this.$chat.client.subscribe(topic)
       }
@@ -114,9 +117,17 @@ export default {
       if (this.chats[topic] !== undefined) {
         return
       }
-      this.$set(this.chats, topic, { newTexts: 0, messages: [] })
+      this.$set(this.chats, topic, { newTexts: 0, messages: [], paused: false })
       this.currentChat = topic
       this.$chat.client.subscribe(topic)
+    },
+    onLeaveChat(topic) {
+      console.log(`leave chat ${topic}`)
+    },
+    onPauseChat(topic) {
+      console.log(`pause chat ${topic}`)
+      this.chats[topic].paused = !this.chats[topic].paused
+      console.log(this.chats[topic])
     },
     onUserSetHost(hostname) {
       this.client.host = hostname

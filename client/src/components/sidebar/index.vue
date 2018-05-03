@@ -11,6 +11,8 @@
       :chats="this.chats"
       @selectTopic="this.selectTopic"
       @newChat="this.onNewChat"
+      @pauseChat="onPauseChat"
+      @leaveChat="onLeaveChat"
     />
     <b-container class="mt-auto mb-3 pt-1 border-top">
       <small>
@@ -53,6 +55,12 @@ export default {
     onNewChat(topic) {
       console.log(topic)
       this.$emit('newChat', topic)
+    },
+    onPauseChat(topic) {
+      this.$emit('pauseChat', topic)
+    },
+    onLeaveChat(topic) {
+      this.$emit('leaveChat', topic)
     },
     onSetHost(event) {
       event.preventDefault()
