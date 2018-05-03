@@ -63,15 +63,8 @@ export default {
       if (this.chats[topic] === undefined) {
         this.$set(this.chats, topic, {
           newTexts: 0,
-<<<<<<< HEAD
-          messages: [{
-            'message': ''
-          }],
-          unreadMessages: null,
-=======
           messages: [],
           unreadMessages: isNew ? [] : null, 
->>>>>>> 71a074a586268c811e104c120b8004fa7fa9667c
           lastMessageId: null,
           paused: false
         })
