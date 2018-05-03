@@ -2,6 +2,7 @@
   <b-container fluid class="p-0 m-0 d-flex flex-column h-100">
     <div style="flex: 1; max-height: calc(100vh - 170px);">
       <conversation
+      :unread-messages="this.chatData.unreadMessages"
       :messages="this.chatData.messages"
       />
     </div>

@@ -60,7 +60,7 @@ export default {
         this.$set(this.chats, topic, {
           newTexts: 0,
           messages: [],
-          unreadMessages: [],
+          unreadMessages: null,
           lastMessageId: null
         })
         this.$chat.client.subscribe(topic)
@@ -79,12 +79,10 @@ export default {
       }
     },
     getUnread(topic, start, end, retainPayload) {
-      console.log(start, end)
-      this.$chat.client.getUnread(topic).then(payloads => {
-      // this.$chat.client.getUnread(topic, start, end, null).then(payloads => {
+      this.$chat.client.getUnread(topic, {id: start}, {id: end}, null).then(payloads => {
+        console.log(start, end)
         console.log('payloads', payloads)
-        payloads.forEach(payload => this.handleMessage(topic, payload, true))
-        // this.handleMessage(topic, retainPayload, true)
+        this.chats[topic].unreadMessages = payloads.map(this.addOwn)
       }).catch(err => console.error(err))
     },
     handleMessage(topic, payload, retain) {
