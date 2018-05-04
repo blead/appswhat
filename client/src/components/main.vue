@@ -120,6 +120,7 @@ export default {
     onUserLogin(username) {
       this.$chat.login(username)
       this.$chat.client.on('connect', () => {
+        console.log(`connected to ${this.$chat.client.serverUrl}`)
         this.user.name = username
         this.initializeChat()
       })
