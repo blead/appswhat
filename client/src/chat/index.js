@@ -2,7 +2,7 @@ import { AppsWhatClient } from '@shared';
 
 class ChatClient {
   constructor() {
-    this._location = 'http://localhost:8008';
+    this._location = `http://${window.location.hostname}:8008`;
     this._client = null;
   }
 
