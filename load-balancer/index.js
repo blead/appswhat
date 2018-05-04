@@ -33,6 +33,7 @@ servers.forEach(function(server) {
 
   server.connection.on('message', function(topic, message) {
     server.load = Number(message.toString())
+    console.log(`server: ${server.url}: ${server.load}`)
     if(server.poolItem === null) {
       server.poolItem = serverPool.insert(server.load, server.url)
     } else if(server.load < server.poolItem.key) {

@@ -84,7 +84,7 @@ export default {
       }
     },
     getUnread(topic, start, end, retainPayload) {
-        console.log(start, end)
+      console.log(start, end)
       this.$chat.client.getUnread(topic, {id: start}, {id: end}, null)
         .then(payloads => this.handleUnreads(topic, payloads))
         .catch(err => console.error(err))
@@ -120,8 +120,10 @@ export default {
       this.$chat.login(username)
       this.$chat.client.on('connect', () => {
         console.log(`connected to ${this.$chat.client.serverUrl}`)
+        if (!this.user.name) {
+          this.initializeChat()
+        }
         this.user.name = username
-        this.initializeChat()
       })
     },
     onYoda() {
@@ -166,7 +168,6 @@ export default {
       } else {
         this.$chat.client.subscribe(topic)
       }
-
     },
     onUserSetHost(hostname) {
       if (this.$chat.client !== null) {
