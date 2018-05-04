@@ -36,7 +36,6 @@ export default {
     },
     onYoda() {
       this.$emit('yoda')
-      console.log('yoda', this.yoda)
     }
   },
 }
