@@ -1,7 +1,7 @@
 # AppsWhat
 
 ## [Client](client)
-- Web-based chat client. (default dev server port: 9000)
+- Web-based chat client. (default port: 1138, dev server port: 9000)
 
 ## [Load Balancer](load-balancer)
 - Monitors the status of each server and responds to client requests with the least populated server. (default port: 8008)
@@ -23,7 +23,7 @@ Each service is deployed according to the following table.
 
 | Service       | Tag             | Network | Host-to-container Access    | Container-to-container Access |
 | ------------- | --------------- | ------- | --------------------------- | ----------------------------- |
-| Client        | `client`        | Host    | `http://localhost:9000`     | None                          |
+| Client        | `client`        | Host    | `http://localhost:1138`     | None                          |
 | Load Balancer | `load-balancer` | Host    | `http://localhost:8008`     | None                          |
 | Logger        | `logger`        | Host    | `http://localhost:8888`     | None                          |
 | Server A      | `server-a`      | Bridge  | `ws://localhost:8080`       | None                          |
