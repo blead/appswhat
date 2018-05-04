@@ -64,6 +64,7 @@ export default {
           lastMessageId: null,
           paused: false
         })
+        this.$chat.client.subscribe(topic)
       }
     },
     checkIfMessageNotExists(topic, findMsg) {
