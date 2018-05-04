@@ -126,7 +126,6 @@ export default {
       })
     },
     onYoda() {
-      console.log('toggle yoda')
       this.yoda = !this.yoda
     },
     onUserLogout() {
