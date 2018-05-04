@@ -17,12 +17,8 @@ function removeExtras(originalMessage, extras) {
 
 function yodaSpeak(message, url = 'http://www.yodaspeak.co.uk/webservice/yodatalk.php?wsdl') {
   return createClientAsync(url)
-    .then(client => {
-      console.log('yodaSpeak client created')
-    }).then(client => client.yodaTalkAsync({ yodaTalkRequest: message }))
-    .then(result => {
-      console.log(result[0])
-    }).then(result => result[0].return)
+    .then(client => client.yodaTalkAsync({ yodaTalkRequest: message }))
+    .then(result => result[0].return)
     .then(removeExtras(message, extras))
     .catch(error => {
       console.log(error)
