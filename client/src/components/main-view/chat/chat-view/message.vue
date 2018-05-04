@@ -12,7 +12,7 @@
     v-b-tooltip.click="message.id"
     >
     <b-media class="py-1 px-3" v-if="message.message !== ''">
-      <b-media-body class="chat-message">
+      <b-media-body class="chat-message" :style="{ color: message.yoda ? 'green' : 'black' }">
       {{ message.message }}
       </b-media-body>
     </b-media>
