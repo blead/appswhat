@@ -97,7 +97,7 @@ export default {
     handleUnreads(topic, payloads) {
       console.log('payloads', payloads)
       const {unreadMessages, messages} = this.chats[topic]
-      const unreads = payloads.map(this.addOwn)
+      const unreads = payloads.map(this.addOwn).filter(msg => this.checkIfMessageNotExists(topic, msg))
       console.log(unreadMessages)
       if(unreadMessages === null || unreadMessages === undefined) {
         console.log(this.chats[topic])
@@ -141,8 +141,6 @@ export default {
         return
       }
       this.addTopicAndSubscribeIfNotExist(topic, true)
-      this.currentChat = topic
-      this.$chat.client.subscribe(topic)
       if (this.currentChat === null) {
         this.selectTopic(topic)
       }
