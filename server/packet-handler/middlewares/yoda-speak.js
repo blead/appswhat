@@ -22,7 +22,7 @@ function yodaSpeak(message, url = 'http://www.yodaspeak.co.uk/webservice/yodatal
     .then(removeExtras(message, extras))
     .catch(error => {
       console.log(error)
-      return yodaSpeak(message, url)
+      return message
     })
 }
 
@@ -41,4 +41,3 @@ module.exports = function(client, packet, next) {
     next(packet)
   }
 }
-

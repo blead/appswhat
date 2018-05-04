@@ -8,10 +8,10 @@ services:
     depends_on:
       - load-balancer
     healthcheck:
-      test: curl -f http://localhost:9000 || exit 1
+      test: curl -f http://localhost:1138 || exit 1
       retries: 5
     ports:
-      - '9000:9000'
+      - '1138:1138'
     restart: on-failure
     volumes:
       - ./client:/client

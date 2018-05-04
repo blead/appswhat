@@ -10,5 +10,5 @@ COPY ./client/package*.json ./
 RUN npm install
 COPY ./client/ .
 
-EXPOSE 9000
-CMD ["npm", "run", "dev"]
+EXPOSE 1138
+CMD ["npm", "start"]

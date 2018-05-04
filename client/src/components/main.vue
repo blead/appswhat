@@ -41,10 +41,6 @@ export default {
     MainView
   },
   methods: {
-    login(username) {
-      this.$chat.login(username)
-      this.user.name = username
-    },
     initializeChat() {
       this.chats = {}
       this.currentChat = ''
@@ -64,11 +60,10 @@ export default {
         this.$set(this.chats, topic, {
           newTexts: 0,
           messages: [],
-          unreadMessages: isNew ? [] : null, 
+          unreadMessages: isNew ? [] : null,
           lastMessageId: null,
           paused: false
         })
-        this.$chat.client.subscribe(topic)
       }
     },
     checkIfMessageNotExists(topic, findMsg) {
@@ -122,11 +117,14 @@ export default {
       this.chats[topic].newTexts = 0
     },
     onUserLogin(username) {
-      this.login(username)
-      this.initializeChat()
+      this.$chat.login(username)
+      this.$chat.client.on('connect', () => {
+        console.log(`connected to ${this.$chat.client.serverUrl}`)
+        this.user.name = username
+        this.initializeChat()
+      })
     },
     onYoda() {
-      console.log('toggle yoda')
       this.yoda = !this.yoda
     },
     onUserLogout() {
@@ -169,10 +167,10 @@ export default {
 
     },
     onUserSetHost(hostname) {
-      this.client.host = hostname
       if (this.$chat.client !== null) {
         this.onUserLogout()
       }
+      this.client.host = hostname
       this.$chat.location = hostname
     }
   },

@@ -17,6 +17,7 @@
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
+    "serve": "^6.5.6",
     "style-loader": "^0.21.0",
     "vue-loader": "^14.2.2",
     "vue-svg-loader": "^0.5.0",
@@ -26,6 +27,7 @@
     "webpack-dev-server": "^3.1.3"
   },
   "scripts": {
+    "start": "npm run build && serve -p 1138 build",
     "test": "echo yay",
     "build": "webpack",
     "dev": "webpack-dev-server"
