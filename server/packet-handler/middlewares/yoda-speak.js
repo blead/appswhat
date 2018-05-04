@@ -41,4 +41,3 @@ module.exports = function(client, packet, next) {
     next(packet)
   }
 }
-
